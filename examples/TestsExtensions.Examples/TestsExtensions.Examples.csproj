@@ -8,9 +8,4 @@
         <OutputType>Exe</OutputType>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
-    </PropertyGroup>
-
 </Project>
