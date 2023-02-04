@@ -3,7 +3,7 @@ using TestsExtensions.Examples.CalculatorExample;
 
 namespace TestsExtensions.Examples.xUnit.CalculatorExample;
 
-public class CalculatorTest
+public class CalculatorTests
 {
     [JsonTheory]
     [JsonData("CalculatorExample/TestData/Calculator_Add.json")]
