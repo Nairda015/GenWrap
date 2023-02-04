@@ -3,7 +3,7 @@ using System.Text.Json;
 using TestsExtensions.Extensions;
 using Xunit.Sdk;
 
-namespace TestsExtensions;
+namespace TestsExtensions.Examples.xUnit.CalculatorExample;
 
 // Example of generated attribute for Calculator_Add test
 public class JsonDataAttribute : DataAttribute
@@ -17,8 +17,8 @@ public class JsonDataAttribute : DataAttribute
     {
         if (testMethod == null) throw new ArgumentNullException(nameof(testMethod));
         
-        var fileData = _filePath.GetJsonFileData();
-        if (fileData is null) return new List<object[]>();
+        var fileData = PathExtension.GetJsonFileData(_filePath);
+        if (string.IsNullOrWhiteSpace(fileData)) return new List<object[]>();
         
         var datalist = JsonSerializer.Deserialize<List<TestObject>>(fileData);
         if (datalist is null) return new List<object[]>();
