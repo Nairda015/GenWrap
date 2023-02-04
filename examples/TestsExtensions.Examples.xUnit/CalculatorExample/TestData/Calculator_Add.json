@@ -1,12 +1,12 @@
 [
   {
-    "inputA": 8,
-    "inputB": 12,
-    "expected": 20
+    "InputA": 8,
+    "InputB": 12,
+    "Expected": 20
   },
   {
-    "inputA": 4,
-    "inputB": 6,
-    "expected": 10
+    "InputA": 4,
+    "InputB": 6,
+    "Expected": 10
   }
 ]

@@ -4,8 +4,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{22
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B7E3623C-F471-402F-9B09-053BB37A36F4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9DFFED35-52F1-431E-AC96-2AF1ED727D5B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsExtensions.Examples.xUnit", "examples\TestsExtensions.Examples.xUnit\TestsExtensions.Examples.xUnit.csproj", "{68C628F6-2012-4F5B-A94C-65E4D4ECE70C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sf", "sf", "{406AA2CC-473B-4BA9-B99E-3FCFE2A4A63C}"

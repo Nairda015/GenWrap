@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using TestsExtensions.Extensions;
@@ -20,11 +23,10 @@ public class JsonDataAttribute : DataAttribute
         var fileData = _filePath.GetJsonFileData();
         if (fileData is null) return new List<object[]>();
         
-        var datalist = JsonSerializer.Deserialize<List<TestObject?>>(fileData);
+        var datalist = JsonSerializer.Deserialize<List<TestObject>>(fileData);
         if (datalist is null) return new List<object[]>();
 
         return datalist
-            .Where(x => x is not null)
             .Select(data => new object[] { data.InputA, data.InputB, data.Expected }) //order matters
             .ToList();
     }

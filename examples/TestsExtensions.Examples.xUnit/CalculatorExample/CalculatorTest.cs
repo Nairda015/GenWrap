@@ -6,7 +6,7 @@ namespace TestsExtensions.Examples.xUnit.CalculatorExample;
 
 public class CalculatorTest
 {
-    [Theory]
+    [JsonTheory]
     [JsonData("CalculatorExample/TestData/Calculator_Add.json")]
     public void Add_ShouldReturnCorrectResult(int inputA, int inputB, int expected)
     {
