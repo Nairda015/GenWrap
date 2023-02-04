@@ -13,4 +13,8 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+    </PropertyGroup>
+
 </Project>
