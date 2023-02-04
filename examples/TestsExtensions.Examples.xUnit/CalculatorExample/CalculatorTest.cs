@@ -1,6 +1,5 @@
 using FluentAssertions;
 using TestsExtensions.Examples.CalculatorExample;
-using Xunit;
 
 namespace TestsExtensions.Examples.xUnit.CalculatorExample;
 
