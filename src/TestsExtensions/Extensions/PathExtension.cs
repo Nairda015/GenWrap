@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+
 namespace TestsExtensions.Extensions;
 
 internal static class PathExtension
