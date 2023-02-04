@@ -1,5 +1,5 @@
 using System.Reflection;
-using Newtonsoft.Json;
+using System.Text.Json;
 using TestsExtensions.Extensions;
 using Xunit.Sdk;
 
@@ -20,7 +20,7 @@ public class JsonDataAttribute : DataAttribute
         var fileData = _filePath.GetJsonFileData();
         if (fileData is null) return new List<object[]>();
         
-        var datalist = JsonConvert.DeserializeObject<List<TestObject?>>(fileData);
+        var datalist = JsonSerializer.Deserialize<List<TestObject?>>(fileData);
         if (datalist is null) return new List<object[]>();
 
         return datalist

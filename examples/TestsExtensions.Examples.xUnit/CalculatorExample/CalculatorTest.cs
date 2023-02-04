@@ -4,7 +4,6 @@ using Xunit;
 
 namespace TestsExtensions.Examples.xUnit.CalculatorExample;
 
-
 public class CalculatorTest
 {
     [Theory]
