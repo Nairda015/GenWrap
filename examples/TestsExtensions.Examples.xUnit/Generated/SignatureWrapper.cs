@@ -3,14 +3,15 @@ using System.Text.Json;
 namespace TestsExtensions.Examples.xUnit.Generated;
 
 // Example of generated class for Calculator_Add test
-file class TestObject : ITestObject
+file record SignatureWrapper : ITestObject
 {
-    public int InputA { get; set; } = default!;
-    public int InputB { get; set; } = default!;
-    public int Expected { get; set; } = default!;
+    public int InputA { get; init; } = default!;
+    public int InputB { get; init; } = default!;
+    public int Expected { get; init; } = default!;
+    
     public IEnumerable<object[]> Deserialize(string json)
     {
-        var datalist = JsonSerializer.Deserialize<List<TestObject>>(json);
+        var datalist = JsonSerializer.Deserialize<List<SignatureWrapper>>(json);
         if (datalist is null) return new List<object[]>();
 
         return datalist

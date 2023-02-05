@@ -5,14 +5,14 @@ namespace TestsExtensions.Examples.xUnit.Generated;
 
 // Example of generated class for Chart_SimplifyPriceChangedSet test
 
-file class TestObject2 : ITestObject
+file record SignatureWrapper : ITestObject
 {
-    public List<PriceChangedEvent> Events { get; set; } = default!;
-    public List<ChartPoint> Expected { get; set; } = default!;
+    public List<PriceChangedEvent> Events { get; init; } = default!;
+    public List<ChartPoint> Expected { get; init; } = default!;
     
     public IEnumerable<object[]> Deserialize(string json)
     {
-        var datalist = JsonSerializer.Deserialize<List<TestObject2>>(json);
+        var datalist = JsonSerializer.Deserialize<List<SignatureWrapper>>(json);
         if (datalist is null) return new List<object[]>();
 
         return datalist
