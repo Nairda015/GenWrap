@@ -17,11 +17,14 @@ internal class AttributeGenerator : ISourceGenerator
             typeof(JsonDataAttribute),
             context.CancellationToken);
 
+        var i = 1;
         foreach (var group in methodGroups)
         {
             var source = GenerateAttribute(group, context.Compilation);
 
-            context.AddSource($"SignatureWrapper{group.Key}.{Guid.NewGuid()}.g.cs", SourceText.From(source, Encoding.UTF8));
+            var fileNumber = i.ToString().PadLeft(6, '0');
+            context.AddSource($"SignatureWrapper.{group.Key}.{fileNumber}.g.cs", SourceText.From(source, Encoding.UTF8));
+            i++;
         }
     }
 
@@ -78,7 +81,7 @@ internal class AttributeGenerator : ISourceGenerator
         => $"""{string.Join(", ", parameters.Select(x => $"x.{ToCamelCase(x.Identifier.Text)}"))}""";
 
     private static string GenerateTestObjectProperties(IEnumerable<ParameterSyntax> parameters)
-        => string.Join("\n\t\t\t", parameters.Select(GenerateProperties));
+        => string.Join("\n\t", parameters.Select(GenerateProperties));
 
     private static string GenerateProperties(ParameterSyntax parameter)
         => $$"""public {{parameter.Type}} {{ToCamelCase(parameter.Identifier.Text)}} { get; init; } = default!;""";
