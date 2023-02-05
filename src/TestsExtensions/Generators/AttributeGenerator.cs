@@ -21,7 +21,7 @@ internal class AttributeGenerator : ISourceGenerator
         {
             var source = GenerateAttribute(group);
 
-            context.AddSource("SignatureWrapperGenerated" + Guid.NewGuid(), SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"SignatureWrapper{group.Key}.{Guid.NewGuid()}.g.cs", SourceText.From(source, Encoding.UTF8));
         }
     }
 
@@ -34,13 +34,14 @@ internal class AttributeGenerator : ISourceGenerator
         $$"""
         using System.Text.Json;
         using TestsExtensions.Examples.ChartExample;
-
+        
+        // ReSharper disable once CheckNamespace
         namespace TestsExtensions.Generated;
 
         // ReSharper disable once UnusedType.Local
         file record SignatureWrapper : ISignatureWrapper
         {
-            public string Key => "test123";
+            public string Key => "ChartExample/TestData/Chart_SimplifyPriceChangedSet.json";
             {{GenerateTestObjectProperties(parameters)}}
 
             public IEnumerable<object[]> Deserialize(string json)
@@ -58,13 +59,15 @@ internal class AttributeGenerator : ISourceGenerator
     }
 
     private static string GenerateNewObjectProperties(IEnumerable<ParameterSyntax> parameters)
-        => $"""{string.Join(", ", parameters.Select(x => $"x.{x.Identifier.Text}"))}""";
+        => $"""{string.Join(", ", parameters.Select(x => $"x.{ToCamelCase(x.Identifier.Text)}"))}""";
 
     private static string GenerateTestObjectProperties(IEnumerable<ParameterSyntax> parameters)
         => string.Join("\n\t\t\t", parameters.Select(GenerateProperties));
 
     private static string GenerateProperties(ParameterSyntax parameter)
-        => $$"""public {{parameter.Type}} {{parameter.Identifier.Text}} { get; init; } = default!;""";
+        => $$"""public {{parameter.Type}} {{ToCamelCase(parameter.Identifier.Text)}} { get; init; } = default!;""";
+    
+    private static string ToCamelCase(string str) => str.Substring(0,1).ToUpper() + str.Substring(1);
 
     public void Initialize(GeneratorInitializationContext context)
     {
