@@ -10,7 +10,7 @@ file record SignatureWrapper : ISignatureWrapper
     public string Key => "ChartExample/TestData/Chart_SimplifyPriceChangedSet.json";
     public List<PriceChangedEvent> Events { get; init; } = default!;
     public List<ChartPoint> Expected { get; init; } = default!;
-    
+
     public IEnumerable<object[]> Deserialize(string json)
     {
         var datalist = JsonSerializer.Deserialize<List<SignatureWrapper>>(json);

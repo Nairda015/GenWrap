@@ -9,7 +9,6 @@ namespace TestsExtensions;
 public class JsonTheoryAttribute<TMarker> : TheoryAttribute
 {
     public JsonTheoryAttribute() => SignatureWrapperStore.ScanAssembly<TMarker>();
-    
 }
 
 /// <summary>

@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using System.Reflection;
-using TestsExtensions.Extensions;
 using TestsExtensions.Internal;
+using TestsExtensions.Internal.Exceptions;
+using TestsExtensions.Internal.Extensions;
 using Xunit.Sdk;
 
 namespace TestsExtensions;
@@ -15,17 +16,13 @@ public class JsonDataAttribute : DataAttribute
     public JsonDataAttribute(string filePath) => _filePath = filePath;
 
     /// <inheritDoc />
-    public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+    public override IEnumerable<object[]> GetData(MethodInfo _)
     {
-        if (testMethod == null) throw new ArgumentNullException(nameof(testMethod));
-
         var fileData = _filePath.GetJsonFileData();
         if (string.IsNullOrWhiteSpace(fileData)) return new List<object[]>();
 
-        var dict = new Dictionary<int, int>();
-
         return SignatureWrapperStore.TryGetValue(_filePath, out var testObject)
             ? testObject.Deserialize(fileData)
-            : throw new UnreachableException("Scanning for test objects failed");
+            : throw new AssemblyScanningException("Scanning for test objects failed");
     }
 }

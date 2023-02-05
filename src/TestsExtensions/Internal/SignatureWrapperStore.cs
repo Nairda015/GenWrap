@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using TestsExtensions.Internal.Exceptions;
 
 namespace TestsExtensions.Internal;
 
@@ -9,17 +10,17 @@ internal static class SignatureWrapperStore
 
     public static bool TryGetValue(string key, [NotNullWhen(true)] out ISignatureWrapper? value)
     {
-        if (_testObjects.Count == 0) throw new Exception("store is empty");
+        if (_testObjects.Count == 0) throw new SignatureWrapperStoreException("Store is empty");
         return _testObjects.TryGetValue(key, out value);
     }
-    
+
     public static void ScanAssembly<TMarker>()
     {
         if (_testObjects.Count > 0) return;
         ScanAssembly(Assembly.GetAssembly(typeof(TMarker))!);
     }
-    
-    public static void ScanAssembly(Assembly assembly) 
+
+    public static void ScanAssembly(Assembly assembly)
         => _testObjects = assembly
             .GetTypes()
             .Where(x => typeof(ISignatureWrapper).IsAssignableFrom(x) && x.IsClass)
