@@ -1,6 +1,6 @@
 namespace TestsExtensions.Extensions;
 
-public static class PathExtension
+internal static class PathExtension
 {
     public static string GetJsonFileData(string path)
     {
