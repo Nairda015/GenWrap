@@ -29,7 +29,6 @@ internal class AttributeGenerator : ISourceGenerator
     {
         var parameters = group.First().ParameterList.Parameters.ToList();
 
-        //var filePath = "test123";
         var source =
         $$"""
         using System.Text.Json;
@@ -62,7 +61,7 @@ internal class AttributeGenerator : ISourceGenerator
         => $"""{string.Join(", ", parameters.Select(x => $"x.{ToCamelCase(x.Identifier.Text)}"))}""";
 
     private static string GenerateTestObjectProperties(IEnumerable<ParameterSyntax> parameters)
-        => string.Join("\n\t\t\t", parameters.Select(GenerateProperties));
+        => string.Join("\n\t", parameters.Select(GenerateProperties));
 
     private static string GenerateProperties(ParameterSyntax parameter)
         => $$"""public {{parameter.Type}} {{ToCamelCase(parameter.Identifier.Text)}} { get; init; } = default!;""";
