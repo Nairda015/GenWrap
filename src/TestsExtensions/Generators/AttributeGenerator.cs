@@ -21,7 +21,7 @@ internal class AttributeGenerator : ISourceGenerator
         {
             var source = GenerateAttribute(group);
 
-            context.AddSource($"SignatureWrapper{group.Key}.{Guid.NewGuid()}.g.cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"SignatureWrapper.{group.Key}.{Guid.NewGuid()}.g.cs", SourceText.From(source, Encoding.UTF8));
         }
     }
 
