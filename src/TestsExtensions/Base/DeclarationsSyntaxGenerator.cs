@@ -39,6 +39,7 @@ internal class DeclarationsSyntaxGenerator
 
         return methods
             .Where(x => x.AttributeLists
-                .Any(y => y.Attributes.Any(z => semanticModel.GetTypeInfo(z).Type?.Name == attributeType.Name)));
+                .Any(y => y.Attributes.Any(z 
+                    => semanticModel.GetTypeInfo(z).Type?.Name == attributeType.Name)));
     }
 }

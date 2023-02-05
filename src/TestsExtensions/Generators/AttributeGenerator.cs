@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,60 +21,54 @@ internal class AttributeGenerator : ISourceGenerator
         {
             var source = GenerateAttribute(group);
 
-            context.AddSource("MyGeneratedAttribute", SourceText.From(source, Encoding.UTF8));
+            context.AddSource("JsonDataAttribute", SourceText.From(source, Encoding.UTF8));
         }
     }
 
-    private string GenerateAttribute(IGrouping<string, MethodDeclarationSyntax> group)
+    private static string GenerateAttribute(IEnumerable<MethodDeclarationSyntax> group)
     {
         var parameters = group.First().ParameterList.Parameters.ToList();
 
-        var source = $@"using System;
-using System.Data.Linq.Mapping;
+        var filePath = "test123";
+        var source =
+            $$"""
+        using System.Data.Linq.Mapping;
 
-namespace TestHelper
-{{
-    public class MyGeneratedAttribute  : DataAttribute
-    {{
-        private readonly string _param1;
+        namespace TestsExtensions.Generated;
 
-        public MyGeneratedAttribute(string _param1)
-        {{
-            _param1 = param1;
-        }}
-        
-        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
-        {{
-            var data = new List<TestObject>();
+        // ReSharper disable once UnusedType.Local
+        file record SignatureWrapper : ISignatureWrapper
+        {
+            public string Key => {{filePath}};
+            {{GenerateTestObjectProperties(parameters)}}
 
-            return data
-                .Select(data => new object[] {{ {GenerateNewObjectProperties(parameters)} }})
-                .ToList();
-        }}
+            public IEnumerable<object[]> Deserialize(string json)
+            {
+                var data = JsonSerializer.Deserialize<List<SignatureWrapper>>(json);
+                if (data is null) return new List<object[]>();
 
-        {GenerateTestObject(parameters)}
-    }}
-
-}}";
+                return data
+                    .Select(x => new object[] { {{GenerateNewObjectProperties(parameters)}} })
+                    .ToList();
+            }
+        }
+        """;
         return source;
     }
 
-    private string GenerateNewObjectProperties(IEnumerable<ParameterSyntax> parameters)
-        => $@"{string.Join(", ", parameters.Select(x => $"data.{x.Identifier.Text}"))}";
+    private static string GenerateNewObjectProperties(IEnumerable<ParameterSyntax> parameters)
+        => $"""{string.Join(", ", parameters.Select(x => $"x.{x.Identifier.Text}"))}""";
 
-    private string GenerateTestObject(IEnumerable<ParameterSyntax> parameters)
-        => $@"
-        private class TestObject
-        {{
-            {string.Join($"\n\t\t\t", parameters.Select(GenerateProperties))}
-        }}
-";
+    private static string GenerateTestObjectProperties(IEnumerable<ParameterSyntax> parameters)
+        => string.Join("\n\t\t\t", parameters.Select(GenerateProperties));
 
-    private string GenerateProperties(ParameterSyntax parameter)
-        => $@"public {parameter.Type} {parameter.Identifier.Text} {{ get; set; }}";
-
+    private static string GenerateProperties(ParameterSyntax parameter)
+        => $$"""public {{parameter.Type}} {{parameter.Identifier.Text}} { get; init; } = default!""";
 
     public void Initialize(GeneratorInitializationContext context)
     {
+#if DEBUG
+        if (!Debugger.IsAttached) Debugger.Launch();
+#endif
     }
 }

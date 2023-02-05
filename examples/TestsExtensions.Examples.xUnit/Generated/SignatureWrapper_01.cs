@@ -3,6 +3,7 @@ using System.Text.Json;
 namespace TestsExtensions.Examples.xUnit.Generated;
 
 // Example of generated class for Calculator_Add test
+// ReSharper disable once UnusedType.Local
 file record SignatureWrapper : ISignatureWrapper
 {
     public string Key => "CalculatorExample/TestData/Calculator_Add.json";

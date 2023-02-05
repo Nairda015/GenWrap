@@ -5,6 +5,7 @@ namespace TestsExtensions.Examples.xUnit.Generated;
 
 // Example of generated class for Chart_SimplifyPriceChangedSet test
 
+// ReSharper disable once UnusedType.Local
 file record SignatureWrapper : ISignatureWrapper
 {
     public string Key => "ChartExample/TestData/Chart_SimplifyPriceChangedSet.json";
