@@ -3,7 +3,7 @@ using System.Text.Json;
 namespace TestsExtensions.Examples.xUnit.Generated;
 
 // Example of generated class for Calculator_Add test
-file record SignatureWrapper : ITestObject
+file record SignatureWrapper : ISignatureWrapper
 {
     public string Key => "CalculatorExample/TestData/Calculator_Add.json";
     public int InputA { get; init; } = default!;

@@ -5,7 +5,7 @@ namespace TestsExtensions.Examples.xUnit.Generated;
 
 // Example of generated class for Chart_SimplifyPriceChangedSet test
 
-file record SignatureWrapper : ITestObject
+file record SignatureWrapper : ISignatureWrapper
 {
     public string Key => "ChartExample/TestData/Chart_SimplifyPriceChangedSet.json";
     public List<PriceChangedEvent> Events { get; init; } = default!;
