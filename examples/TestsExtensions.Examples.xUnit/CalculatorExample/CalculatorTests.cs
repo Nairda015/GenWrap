@@ -12,10 +12,10 @@ public class CalculatorTests
     {
         // Arrange
         var calculator = new Calculator();
-        
+
         // Act
         var result = calculator.Add(inputA, inputB);
-        
+
         // Assert
         result.Should().Be(expected);
     }
