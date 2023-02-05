@@ -13,7 +13,7 @@ internal class AttributeGenerator : ISourceGenerator
     {
         var methodGroups = DeclarationsSyntaxGenerator.GetMethodGroups(
             context.Compilation,
-            typeof(JsonTheoryAttribute),
+            typeof(JsonDataAttribute),
             context.CancellationToken);
 
         foreach (var group in methodGroups)
