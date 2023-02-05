@@ -19,17 +19,18 @@ internal class AttributeGenerator : ISourceGenerator
 
         foreach (var group in methodGroups)
         {
-            var source = GenerateAttribute(group);
+            var source = GenerateAttribute(group, context.Compilation);
 
             context.AddSource($"SignatureWrapper{group.Key}.{Guid.NewGuid()}.g.cs", SourceText.From(source, Encoding.UTF8));
         }
     }
 
-    private static string GenerateAttribute(IEnumerable<MethodDeclarationSyntax> group)
+    private static string GenerateAttribute(IEnumerable<MethodDeclarationSyntax> group, Compilation compilation)
     {
         var parameters = group.First().ParameterList.Parameters.ToList();
 
-        //var filePath = "test123";
+        var filePath = GetFilePath(group.First(), compilation);
+
         var source =
         $$"""
         using System.Text.Json;
@@ -41,7 +42,7 @@ internal class AttributeGenerator : ISourceGenerator
         // ReSharper disable once UnusedType.Local
         file record SignatureWrapper : ISignatureWrapper
         {
-            public string Key => "ChartExample/TestData/Chart_SimplifyPriceChangedSet.json";
+            public string Key => "{{filePath}}";
             {{GenerateTestObjectProperties(parameters)}}
 
             public IEnumerable<object[]> Deserialize(string json)
@@ -58,6 +59,21 @@ internal class AttributeGenerator : ISourceGenerator
         return source;
     }
 
+    private static string? GetFilePath(MethodDeclarationSyntax method, Compilation compilation)
+    {
+        var semanticModel = compilation.GetSemanticModel(method.SyntaxTree);
+
+        var attribute = method.AttributeLists
+            .Select(x => x.Attributes
+                .Where(y => semanticModel.GetTypeInfo(y).Type?.Name == typeof(JsonDataAttribute).Name))
+             .SelectMany(x => x)
+             .First();
+
+        var expression = attribute.ArgumentList?.Arguments.First().Expression as LiteralExpressionSyntax;
+
+        return expression?.Token.ValueText;
+    }    
+
     private static string GenerateNewObjectProperties(IEnumerable<ParameterSyntax> parameters)
         => $"""{string.Join(", ", parameters.Select(x => $"x.{ToCamelCase(x.Identifier.Text)}"))}""";
 
@@ -71,8 +87,8 @@ internal class AttributeGenerator : ISourceGenerator
 
     public void Initialize(GeneratorInitializationContext context)
     {
-#if DEBUG
-        if (!Debugger.IsAttached) Debugger.Launch();
-#endif
+        //#if DEBUG
+        //        if (!Debugger.IsAttached) Debugger.Launch();
+        //#endif
     }
 }
