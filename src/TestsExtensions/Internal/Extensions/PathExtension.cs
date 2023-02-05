@@ -15,5 +15,5 @@ internal static class PathExtension
 
     public static string GetAbsolutePath(this string path) => Path.IsPathRooted(path)
         ? path
-        : Path.GetRelativePath(Directory.GetCurrentDirectory(), path);
+        : PathNetCore.GetRelativePath(Directory.GetCurrentDirectory(), path);
 }

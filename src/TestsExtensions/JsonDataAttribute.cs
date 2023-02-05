@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Reflection;
 using TestsExtensions.Internal;
 using TestsExtensions.Internal.Exceptions;
@@ -21,8 +20,8 @@ public class JsonDataAttribute : DataAttribute
         var fileData = _filePath.GetJsonFileData();
         if (string.IsNullOrWhiteSpace(fileData)) return new List<object[]>();
 
-        return SignatureWrapperStore.TryGetValue(_filePath, out var testObject)
-            ? testObject.Deserialize(fileData)
+        return SignatureWrapperStore.TryGetValue(_filePath, out var wrapper)
+            ? wrapper!.Deserialize(fileData)
             : throw new AssemblyScanningException("Scanning for test objects failed");
     }
 }

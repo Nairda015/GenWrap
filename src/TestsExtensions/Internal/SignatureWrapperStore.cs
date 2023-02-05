@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TestsExtensions.Internal.Exceptions;
 
@@ -8,7 +7,7 @@ internal static class SignatureWrapperStore
 {
     private static Dictionary<string, ISignatureWrapper> _testObjects = new();
 
-    public static bool TryGetValue(string key, [NotNullWhen(true)] out ISignatureWrapper? value)
+    public static bool TryGetValue(string key, out ISignatureWrapper? value)
     {
         if (_testObjects.Count == 0) throw new SignatureWrapperStoreException("Store is empty");
         return _testObjects.TryGetValue(key, out value);
