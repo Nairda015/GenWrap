@@ -21,7 +21,7 @@ internal class AttributeGenerator : ISourceGenerator
         {
             var source = GenerateAttribute(group);
 
-            context.AddSource("JsonDataAttribute", SourceText.From(source, Encoding.UTF8));
+            context.AddSource("SignatureWrapperGenerated" + Guid.NewGuid(), SourceText.From(source, Encoding.UTF8));
         }
     }
 
@@ -29,17 +29,18 @@ internal class AttributeGenerator : ISourceGenerator
     {
         var parameters = group.First().ParameterList.Parameters.ToList();
 
-        var filePath = "test123";
+        //var filePath = "test123";
         var source =
-            $$"""
-        using System.Data.Linq.Mapping;
+        $$"""
+        using System.Text.Json;
+        using TestsExtensions.Examples.ChartExample;
 
         namespace TestsExtensions.Generated;
 
         // ReSharper disable once UnusedType.Local
         file record SignatureWrapper : ISignatureWrapper
         {
-            public string Key => {{filePath}};
+            public string Key => "test123";
             {{GenerateTestObjectProperties(parameters)}}
 
             public IEnumerable<object[]> Deserialize(string json)
@@ -63,7 +64,7 @@ internal class AttributeGenerator : ISourceGenerator
         => string.Join("\n\t\t\t", parameters.Select(GenerateProperties));
 
     private static string GenerateProperties(ParameterSyntax parameter)
-        => $$"""public {{parameter.Type}} {{parameter.Identifier.Text}} { get; init; } = default!""";
+        => $$"""public {{parameter.Type}} {{parameter.Identifier.Text}} { get; init; } = default!;""";
 
     public void Initialize(GeneratorInitializationContext context)
     {
