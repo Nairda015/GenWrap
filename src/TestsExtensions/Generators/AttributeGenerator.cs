@@ -29,15 +29,16 @@ internal class AttributeGenerator : ISourceGenerator
     }
 
     private static string GenerateAttribute(IGrouping<string, MethodDeclarationSyntax> group, Compilation compilation)
-    {
+    {      
         var parameters = group.First().ParameterList.Parameters.ToList();
 
         var filePath = GetFilePath(group.First(), compilation);
 
+        var usings = GetUsings(group);
+
         var source =
         $$"""
-        using System.Text.Json;
-        using TestsExtensions.Examples.ChartExample;
+        {{usings}}
         
         // ReSharper disable once CheckNamespace
         namespace TestsExtensions.Generated;
@@ -60,6 +61,30 @@ internal class AttributeGenerator : ISourceGenerator
         }
         """;
         return source;
+    }
+
+    private static string GetUsings(IGrouping<string, MethodDeclarationSyntax> group)
+    {
+        var parentClass = group.First().Parent as MemberDeclarationSyntax;
+
+        var usings = parentClass
+            ?.FirstAncestorOrSelf<CompilationUnitSyntax>()
+            ?.DescendantNodesAndSelf()
+            .OfType<UsingDirectiveSyntax>()
+            .Select(x => x.Name.ToString());
+
+        var systemUsings = @"using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text.Json;
+";
+
+        return systemUsings + string.Join("\n", usings.Select(x => $"using {x};"));
     }
 
     private static string? GetFilePath(MethodDeclarationSyntax method, Compilation compilation)
@@ -90,8 +115,8 @@ internal class AttributeGenerator : ISourceGenerator
 
     public void Initialize(GeneratorInitializationContext context)
     {
-        //#if DEBUG
-        //        if (!Debugger.IsAttached) Debugger.Launch();
-        //#endif
+//#if DEBUG
+//        if (!Debugger.IsAttached) Debugger.Launch();
+//#endif
     }
 }
