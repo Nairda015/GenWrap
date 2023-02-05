@@ -3,7 +3,7 @@ using Xunit;
 namespace TestsExtensions;
 
 /// <summary>
-/// This is entry point for source generator
+/// This is entry point for scanning before tests run
 /// </summary>
 public class JsonTheoryAttribute<TMarker> : TheoryAttribute
 {
@@ -12,7 +12,7 @@ public class JsonTheoryAttribute<TMarker> : TheoryAttribute
 }
 
 /// <summary>
-/// This is entry point for source generator
+/// This is entry point for scanning before tests run
 /// </summary>
 public class JsonTheoryAttribute : TheoryAttribute
 {
