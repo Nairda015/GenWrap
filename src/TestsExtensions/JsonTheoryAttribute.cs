@@ -1,3 +1,4 @@
+using TestsExtensions.Internal;
 using Xunit;
 
 namespace TestsExtensions;
@@ -7,7 +8,7 @@ namespace TestsExtensions;
 /// </summary>
 public class JsonTheoryAttribute<TMarker> : TheoryAttribute
 {
-    public JsonTheoryAttribute() => JsonDataAttribute.ScanAssembly<TMarker>();
+    public JsonTheoryAttribute() => SignatureWrapperStore.ScanAssembly<TMarker>();
     
 }
 
@@ -16,5 +17,5 @@ public class JsonTheoryAttribute<TMarker> : TheoryAttribute
 /// </summary>
 public class JsonTheoryAttribute : TheoryAttribute
 {
-    public JsonTheoryAttribute(Type marker) => JsonDataAttribute.ScanAssembly(marker.Assembly);
+    public JsonTheoryAttribute(Type marker) => SignatureWrapperStore.ScanAssembly(marker.Assembly);
 }
