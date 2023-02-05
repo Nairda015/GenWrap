@@ -28,7 +28,7 @@ internal class AttributeGenerator : ISourceGenerator
         }
     }
 
-    private static string GenerateAttribute(IEnumerable<MethodDeclarationSyntax> group, Compilation compilation)
+    private static string GenerateAttribute(IGrouping<string, MethodDeclarationSyntax> group, Compilation compilation)
     {
         var parameters = group.First().ParameterList.Parameters.ToList();
 
@@ -68,7 +68,7 @@ internal class AttributeGenerator : ISourceGenerator
 
         var attribute = method.AttributeLists
             .Select(x => x.Attributes
-                .Where(y => semanticModel.GetTypeInfo(y).Type?.Name == typeof(JsonDataAttribute).Name))
+                .Where(y => semanticModel.GetTypeInfo(y).Type?.Name == nameof(JsonDataAttribute)))
              .SelectMany(x => x)
              .First();
 
