@@ -7,7 +7,7 @@ public class ChartTests
 {
     [JsonTheory<IMarker>]
     [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json")]
-    [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_02.json")]
+    [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json")]
     public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(
         List<PriceChangedEvent> events,
         List<ChartPoint> expected)

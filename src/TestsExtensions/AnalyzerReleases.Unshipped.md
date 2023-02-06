@@ -5,4 +5,4 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-TE0001 | TestsExtensions analyzer | Error | TextExtensionsDescriptors
+TE0001  | Usage    | Warning  | TextExtensionsDescriptors
