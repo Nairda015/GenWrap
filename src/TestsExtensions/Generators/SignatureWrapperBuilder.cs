@@ -4,7 +4,7 @@ using TestsExtensions.Internal.Extensions;
 
 namespace TestsExtensions.Generators;
 
-public class SignatureWrapperBuilder
+internal sealed class SignatureWrapperBuilder
 {
     private string _usings = "";
     private string _filePath = "";

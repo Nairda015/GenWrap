@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.Text;
 namespace TestsExtensions.Generators;
 
 [Generator]
-public class SignatureWrapperGenerator : ISourceGenerator
+internal sealed class SignatureWrapperGenerator : ISourceGenerator
 {
     public void Execute(GeneratorExecutionContext context)
     {

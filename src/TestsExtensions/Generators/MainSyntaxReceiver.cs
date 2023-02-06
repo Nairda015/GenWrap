@@ -4,7 +4,7 @@ using TestsExtensions.Internal.Extensions;
 
 namespace TestsExtensions.Generators;
 
-public class MainSyntaxReceiver : ISyntaxReceiver
+internal sealed class MainSyntaxReceiver : ISyntaxReceiver
 {
     public List<JsonMatch> JsonMatches { get; set; } = new();
 

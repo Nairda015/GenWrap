@@ -1,6 +1,6 @@
 namespace TestsExtensions.Internal.Exceptions;
 
-internal class PathIsMissingException : TestsExtensionsException
+internal sealed class PathIsMissingException : TestsExtensionsException
 {
     public PathIsMissingException(string message) : base(message)
     {

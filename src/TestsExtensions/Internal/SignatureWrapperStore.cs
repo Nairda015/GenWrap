@@ -5,25 +5,33 @@ namespace TestsExtensions.Internal;
 
 internal static class SignatureWrapperStore
 {
-    private static Dictionary<string, ISignatureWrapper> _testObjects = new();
+    private static readonly Dictionary<string, ISignatureWrapper> Store = new();
 
     public static bool TryGetValue(string key, out ISignatureWrapper? value)
     {
-        if (_testObjects.Count == 0) throw new SignatureWrapperStoreException("Store is empty");
-        return _testObjects.TryGetValue(key, out value);
+        if (Store.Count == 0) throw new SignatureWrapperStoreException("Store is empty");
+        return Store.TryGetValue(key, out value);
     }
 
     public static void ScanAssembly<TMarker>()
     {
-        if (_testObjects.Count > 0) return;
+        if (Store.Count > 0) return;
         ScanAssembly(Assembly.GetAssembly(typeof(TMarker))!);
     }
 
     public static void ScanAssembly(Assembly assembly)
-        => _testObjects = assembly
+    {
+        assembly
             .GetTypes()
             .Where(x => typeof(ISignatureWrapper).IsAssignableFrom(x) && x.IsClass)
             .Select(Activator.CreateInstance)
             .Cast<ISignatureWrapper>()
-            .ToDictionary(o => o.Key, x => x);
+            .ToList()
+            .ForEach(TryAddToStore);
+    }
+    
+    private static void TryAddToStore(ISignatureWrapper x)
+    {
+        if (!Store.ContainsKey(x.Key)) Store.Add(x.Key, x);
+    }
 }
