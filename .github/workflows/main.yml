@@ -26,10 +26,13 @@ jobs:
       run: dotnet build --no-restore
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
+        verbose: true
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0

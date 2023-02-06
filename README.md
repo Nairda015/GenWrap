@@ -1,6 +1,7 @@
 # TestsExtensions
 
 [![main](https://github.com/Nairda015/TestsExtensions/actions/workflows/main.yml/badge.svg)](https://github.com/Nairda015/TestsExtensions/actions/workflows/main.yml)
+[![codecov](https://codecov.io/gh/Nairda015/TestsExtensions/branch/main/graph/badge.svg?token=DAD5PSBP23)](https://codecov.io/gh/Nairda015/TestsExtensions)
 
 
 ## JsonData use case
