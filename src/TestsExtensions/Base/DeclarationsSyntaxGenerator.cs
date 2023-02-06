@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace TestsExtensions.Base;
 
-internal class DeclarationsSyntaxGenerator
+internal static class DeclarationsSyntaxGenerator
 {
     internal static IEnumerable<IGrouping<string, MethodDeclarationSyntax>> GetMethodGroups(
         Compilation compilation,
