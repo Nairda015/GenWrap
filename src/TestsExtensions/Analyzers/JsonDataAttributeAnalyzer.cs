@@ -8,7 +8,7 @@ using TestsExtensions.Internal.Extensions;
 namespace TestsExtensions.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class JsonDataAttributeAnalyzer : DiagnosticAnalyzer
+internal sealed class JsonDataAttributeAnalyzer : DiagnosticAnalyzer
 {
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
         = ImmutableArray.Create(TextExtensionsDescriptors.JsonDataAttributeMustHaveUniquePathParam);

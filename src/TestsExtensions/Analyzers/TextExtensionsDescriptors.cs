@@ -2,7 +2,7 @@
 
 namespace TestsExtensions.Analyzers;
 
-public class TextExtensionsDescriptors
+internal class TextExtensionsDescriptors
 {
     public static readonly DiagnosticDescriptor JsonDataAttributeMustHaveUniquePathParam = new DiagnosticDescriptor(
         "TE0001",
