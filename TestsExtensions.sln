@@ -1,35 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{22D25DC3-AFB4-41A9-8AE9-EDFF9D49889F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B7E3623C-F471-402F-9B09-053BB37A36F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsExtensions.Examples.xUnit", "examples\TestsExtensions.Examples.xUnit\TestsExtensions.Examples.xUnit.csproj", "{68C628F6-2012-4F5B-A94C-65E4D4ECE70C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsExtensions.Examples.xUnit", "examples\TestsExtensions.Examples.xUnit\TestsExtensions.Examples.xUnit.csproj", "{68C628F6-2012-4F5B-A94C-65E4D4ECE70C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sf", "sf", "{406AA2CC-473B-4BA9-B99E-3FCFE2A4A63C}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.github\workflows\codeql.yml = .github\workflows\codeql.yml
+		.github\dependabot.yml = .github\dependabot.yml
 		gitattributes.txt = gitattributes.txt
 		LICENSE = LICENSE
-		README.md = README.md
-		.github\workflows\codeql.yml = .github\workflows\codeql.yml
 		.github\workflows\main.yml = .github\workflows\main.yml
-		.github\dependabot.yml = .github\dependabot.yml
+		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsExtensions.Examples", "examples\TestsExtensions.Examples\TestsExtensions.Examples.csproj", "{EC390CC5-5A7E-4B2C-A29D-F16A22BA75B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsExtensions.Examples", "examples\TestsExtensions.Examples\TestsExtensions.Examples.csproj", "{EC390CC5-5A7E-4B2C-A29D-F16A22BA75B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsExtensions", "src\TestsExtensions\TestsExtensions.csproj", "{C495D7D8-3539-490F-8327-B2B6FFB40BAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsExtensions", "src\TestsExtensions\TestsExtensions.csproj", "{C495D7D8-3539-490F-8327-B2B6FFB40BAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{54091619-6765-4ED7-93B8-1B5F4C684E1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsExtensions.UnitTests", "TestsExtensions.UnitTests\TestsExtensions.UnitTests.csproj", "{E4D481FA-A1BC-4051-AFFF-EC31B8503716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{68C628F6-2012-4F5B-A94C-65E4D4ECE70C} = {22D25DC3-AFB4-41A9-8AE9-EDFF9D49889F}
-		{EC390CC5-5A7E-4B2C-A29D-F16A22BA75B9} = {22D25DC3-AFB4-41A9-8AE9-EDFF9D49889F}
-		{C495D7D8-3539-490F-8327-B2B6FFB40BAD} = {B7E3623C-F471-402F-9B09-053BB37A36F4}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{68C628F6-2012-4F5B-A94C-65E4D4ECE70C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +46,21 @@ Global
 		{C495D7D8-3539-490F-8327-B2B6FFB40BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C495D7D8-3539-490F-8327-B2B6FFB40BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C495D7D8-3539-490F-8327-B2B6FFB40BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4D481FA-A1BC-4051-AFFF-EC31B8503716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4D481FA-A1BC-4051-AFFF-EC31B8503716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4D481FA-A1BC-4051-AFFF-EC31B8503716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4D481FA-A1BC-4051-AFFF-EC31B8503716}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{68C628F6-2012-4F5B-A94C-65E4D4ECE70C} = {22D25DC3-AFB4-41A9-8AE9-EDFF9D49889F}
+		{EC390CC5-5A7E-4B2C-A29D-F16A22BA75B9} = {22D25DC3-AFB4-41A9-8AE9-EDFF9D49889F}
+		{C495D7D8-3539-490F-8327-B2B6FFB40BAD} = {B7E3623C-F471-402F-9B09-053BB37A36F4}
+		{E4D481FA-A1BC-4051-AFFF-EC31B8503716} = {54091619-6765-4ED7-93B8-1B5F4C684E1E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C89971E7-026F-4B61-B8C9-86E6178C2571}
 	EndGlobalSection
 EndGlobal
