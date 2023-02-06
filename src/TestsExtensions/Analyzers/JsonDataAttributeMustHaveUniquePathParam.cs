@@ -8,10 +8,10 @@ using TestsExtensions.Internal.Extensions;
 namespace TestsExtensions.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal sealed class JsonDataAttributeAnalyzer : DiagnosticAnalyzer
+internal sealed class JsonDataAttributeMustHaveUniquePathParam : DiagnosticAnalyzer
 {
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
-        = ImmutableArray.Create(TextExtensionsDescriptors.JsonDataAttributeMustHaveUniquePathParam);
+        = ImmutableArray.Create(TextExtensionsDescriptors.TE0001_JsonDataAttributeMustHaveUniquePathParam);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -24,8 +24,6 @@ internal sealed class JsonDataAttributeAnalyzer : DiagnosticAnalyzer
     private static void CheckAttribute(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "JsonData" } } attr) return;
-
-        var symbol = context.SemanticModel.GetSymbolInfo(attr);
 
         var method = attr.GetParent<MethodDeclarationSyntax>();
 
@@ -43,10 +41,13 @@ internal sealed class JsonDataAttributeAnalyzer : DiagnosticAnalyzer
 
         if (!pathGroups.Any()) return;
 
+        var methodSymbol = context.SemanticModel.GetDeclaredSymbol(method);
+
         var error = Diagnostic.Create(
-            TextExtensionsDescriptors.JsonDataAttributeMustHaveUniquePathParam,
+            TextExtensionsDescriptors.TE0001_JsonDataAttributeMustHaveUniquePathParam,
             attr.GetLocation(),
-            symbol);
+            methodSymbol?.Name,
+            methodSymbol?.ContainingType.Name);
 
         context.ReportDiagnostic(error);
     }
