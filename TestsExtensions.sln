@@ -9,6 +9,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sf", "sf", "{406AA2CC-473B-4BA9-B99E-3FCFE2A4A63C}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		gitattributes.txt = gitattributes.txt
+		LICENSE = LICENSE
+		README.md = README.md
+		.github\workflows\codeql.yml = .github\workflows\codeql.yml
+		.github\workflows\main.yml = .github\workflows\main.yml
+		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsExtensions.Examples", "examples\TestsExtensions.Examples\TestsExtensions.Examples.csproj", "{EC390CC5-5A7E-4B2C-A29D-F16A22BA75B9}"
