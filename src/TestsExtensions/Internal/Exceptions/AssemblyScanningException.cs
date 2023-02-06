@@ -1,6 +1,6 @@
 namespace TestsExtensions.Internal.Exceptions;
 
-internal class AssemblyScanningException : TestsExtensionsException
+internal sealed class AssemblyScanningException : TestsExtensionsException
 {
     public AssemblyScanningException(string message) : base(message)
     {

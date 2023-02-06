@@ -21,5 +21,5 @@ public class ChartTests
         // Assert
         result.Count.Should().Be(expected.Count);
         result.Should().BeEquivalentTo(expected);
-    }
+    }  
 }
