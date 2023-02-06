@@ -6,7 +6,8 @@ namespace TestsExtensions.Examples.xUnit.ChartExample;
 public class ChartTests
 {
     [JsonTheory<IMarker>]
-    [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet.json")]
+    [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json")]
+    [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_02.json")]
     public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(
         List<PriceChangedEvent> events,
         List<ChartPoint> expected)
