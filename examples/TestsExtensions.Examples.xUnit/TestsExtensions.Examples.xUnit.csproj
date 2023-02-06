@@ -32,8 +32,11 @@
         <None Update="CalculatorExample\TestData\Calculator_Add.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="ChartExample\TestData\Chart_SimplifyPriceChangedSet.json">
+        <None Update="ChartExample\TestData\Chart_SimplifyPriceChangedSet_01.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="ChartExample\TestData\Chart_SimplifyPriceChangedSet_02.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
