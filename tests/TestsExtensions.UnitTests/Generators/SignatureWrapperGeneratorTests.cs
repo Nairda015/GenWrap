@@ -4,135 +4,136 @@ using Microsoft.CodeAnalysis.CSharp;
 using TestsExtensions.Generators;
 using TestsExtensions.UnitTests.Helper;
 
-namespace TestsExtensions.UnitTests.Generators
+namespace TestsExtensions.UnitTests.Generators;
+
+public class SignatureWrapperGeneratorTests
 {
-    public class SignatureWrapperGeneratorTests
+    //TODO add more test cases
+
+    [Fact]
+    public void SignatureWrapperGenerator_ReturnEmptyDiagnostics()
     {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
 
-        [Fact]
-        public void SignatureWrapperGenerator_ReturnEmptyDiagnostics()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
+        // Act
+        driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out var diagnostics);
 
-            // Act
-            driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out var diagnostics);
+        // Assert
+        diagnostics.Should().BeEmpty();
+    }
 
-            // Assert
-            diagnostics.Should().BeEmpty();
-        }
+    [Fact]
+    public void SignatureWrapperGenerator_ReturnOutputCompilationWithThreeSyntaxTrees()
+    {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
 
-        [Fact]
-        public void SignatureWrapperGenerator_ReturnOutputCompilationWithThreeSyntaxTrees()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
+        // Act
+        driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out _);
 
-            // Act
-            driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out _);
+        // Assert
+        outputCompilation.SyntaxTrees.Should().HaveCount(3);
+    }
 
-            // Assert
-            outputCompilation.SyntaxTrees.Should().HaveCount(3);
-        }
+    [Fact]
+    public void SignatureWrapperGenerator_ReturnDriverResultWithEmptyDiagnostics()
+    {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
 
-        [Fact]
-        public void SignatureWrapperGenerator_ReturnDriverResultWithEmptyDiagnostics()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
-            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
+        // Act
+        GeneratorDriverRunResult runResult = driver.GetRunResult();
 
-            // Act
-            GeneratorDriverRunResult runResult = driver.GetRunResult();
+        // Assert
+        runResult.Diagnostics.Should().BeEmpty();
+    }
 
-            // Assert
-            runResult.Diagnostics.Should().BeEmpty();
-        }
+    [Fact]
+    public void SignatureWrapperGenerator_ReturnDriverResultWithCorrectGeneratedTreesLenght()
+    {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
 
-        [Fact]
-        public void SignatureWrapperGenerator_ReturnDriverResultWithCorrectGeneratedTreesLenght()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
-            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
+        // Act
+        GeneratorDriverRunResult runResult = driver.GetRunResult();
 
-            // Act
-            GeneratorDriverRunResult runResult = driver.GetRunResult();
+        // Assert
+        runResult.GeneratedTrees.Length.Should().Be(2);
+    }
 
-            // Assert
-            runResult.GeneratedTrees.Length.Should().Be(2);
-        }
+    [Fact]
+    public void SignatureWrapperGenerator_ReturnResultWithFactoryGeneratory()
+    {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        var generator = new SignatureWrapperGenerator();
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
+        GeneratorDriverRunResult runResult = driver.GetRunResult();
 
-        [Fact]
-        public void SignatureWrapperGenerator_ReturnResultWithFactoryGeneratory()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            var generator = new SignatureWrapperGenerator();
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
-            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
-            GeneratorDriverRunResult runResult = driver.GetRunResult();
+        // Act
+        GeneratorRunResult generatorResult = runResult.Results[0];
 
-            // Act
-            GeneratorRunResult generatorResult = runResult.Results[0];
+        // Assert
+        generatorResult.Generator.Should().Be(generator);
+    }
 
-            // Assert
-            generatorResult.Generator.Should().Be(generator);
-        }
+    [Fact]
+    public void SignatureWrapperGenerator_ReturnResultWithEmptyDiagnostics()
+    {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
+        GeneratorDriverRunResult runResult = driver.GetRunResult();
 
-        [Fact]
-        public void SignatureWrapperGenerator_ReturnResultWithEmptyDiagnostics()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
-            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
-            GeneratorDriverRunResult runResult = driver.GetRunResult();
+        // Act
+        GeneratorRunResult generatorResult = runResult.Results[0];
 
-            // Act
-            GeneratorRunResult generatorResult = runResult.Results[0];
+        // Assert
+        generatorResult.Diagnostics.Should().BeEmpty();
+    }
 
-            // Assert
-            generatorResult.Diagnostics.Should().BeEmpty();
-        }
+    [Fact]
+    public void SignatureWrapperGenerator_ReturnResultWithGeneratedSourcesWithCorrectLenght()
+    {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
+        GeneratorDriverRunResult runResult = driver.GetRunResult();
 
-        [Fact]
-        public void SignatureWrapperGenerator_ReturnResultWithGeneratedSourcesWithCorrectLenght()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
-            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
-            GeneratorDriverRunResult runResult = driver.GetRunResult();
+        // Act
+        GeneratorRunResult generatorResult = runResult.Results[0];
 
-            // Act
-            GeneratorRunResult generatorResult = runResult.Results[0];
+        // Assert
+        generatorResult.GeneratedSources.Length.Should().Be(2);
+    }
 
-            // Assert
-            generatorResult.GeneratedSources.Length.Should().Be(2);
-        }
+    [Fact]
+    public void SignatureWrapperGenerator_NotReturnExceptions()
+    {
+        // Arrange
+        Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
+        GeneratorDriverRunResult runResult = driver.GetRunResult();
 
-        [Fact]
-        public void SignatureWrapperGenerator_NotReturnExceptions()
-        {
-            // Arrange
-            Compilation inputCompilation = CompilationCreator.CreateCompilation(_source);
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
-            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
-            GeneratorDriverRunResult runResult = driver.GetRunResult();
+        // Act
+        GeneratorRunResult generatorResult = runResult.Results[0];
 
-            // Act
-            GeneratorRunResult generatorResult = runResult.Results[0];
+        // Assert
+        generatorResult.Exception.Should().BeNull();
+    }
 
-            // Assert
-            generatorResult.Exception.Should().BeNull();
-        }
-
-        private readonly string _source = @"
+    private readonly string _source = @"
 using FluentAssertions;
 using TestsExtensions.Examples.ChartExample;
 
@@ -159,5 +160,4 @@ public class ChartTests
     }  
 }
 ";
-    }
 }
