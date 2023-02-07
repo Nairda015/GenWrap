@@ -4,7 +4,7 @@ using Verifier = TestsExtensions.UnitTests.Analyzers.AnalyzerVerifier<
 
 namespace TestsExtensions.UnitTests.Analyzers;
 
-public class JsonDataAttributeMustHaveUniquePathParamTests
+public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 {
     [Theory]
     [InlineData(_sourceWithWarnings1)]
@@ -34,75 +34,75 @@ public class JsonDataAttributeMustHaveUniquePathParamTests
 
 
 
-    private const string _sourceWithWarnings1 = @"
-using TestsExtensions;
+    private const string _sourceWithWarnings1 = """
+        using TestsExtensions;
 
-namespace Test;
+        namespace Test;
 
-public class ChartTests
-{
-    [JsonData(""Test"")]
-    [JsonData(""Test"")]
-    public void Test()
-    {
-    }  
-}
-";
+        public class ChartTests
+        {
+            [JsonData(""Test"")]
+            [JsonData(""Test"")]
+            public void Test()
+            {
+            }  
+        }
+        """;
 
-    private const string _sourceWithWarnings2 = @"
-using TestsExtensions;
+    private const string _sourceWithWarnings2 = """
+        using TestsExtensions;
 
-namespace Test;
+        namespace Test;
 
-public class ChartTests
-{
-    [JsonData(""Test"")]
-    [JsonData(""Test"")]
-    public void Test()
-    {
-    }  
+        public class ChartTests
+        {
+            [JsonData(""Test"")]
+            [JsonData(""Test"")]
+            public void Test()
+            {
+            }  
 
-    [JsonData(""Test"")]
-    [JsonData(""Test1"")]
-    public void Test1()
-    {
-    }  
-}
-";
+            [JsonData(""Test"")]
+            [JsonData(""Test1"")]
+            public void Test1()
+            {
+            }  
+        }
+        """;
 
-    private const string _sourceWithoutWarnings1 = @"
-using TestsExtensions;
+    private const string _sourceWithoutWarnings1 = """
+        using TestsExtensions;
 
-namespace Test;
+        namespace Test;
 
-public class ChartTests
-{
-    [JsonData(""Test"")]
-    [JsonData(""Test1"")]
-    public void Test()
-    {
-    }  
-}
-";
+        public class ChartTests
+        {
+            [JsonData(""Test"")]
+            [JsonData(""Test1"")]
+            public void Test()
+            {
+            }  
+        }
+        """;
 
-    private const string _sourceWithoutWarnings2 = @"
-using TestsExtensions;
-
-namespace Test;
-
-public class ChartTests
-{
-    [JsonData(""Test"")]
-    [JsonData(""Test1"")]
-    public void Test()
-    {
-    }  
-
-    [JsonData(""Test"")]
-    [JsonData(""Test1"")]
-    public void Test1()
-    {
-    } 
-}
-";
+    private const string _sourceWithoutWarnings2 = """
+        using TestsExtensions;
+        
+        namespace Test;
+        
+        public class ChartTests
+        {
+            [JsonData("Test")]
+            [JsonData("Test1")]
+            public void Test()
+            {
+            }  
+        
+            [JsonData("Test")]
+            [JsonData("Test1")]
+            public void Test1()
+            {
+            } 
+        }
+        """;
 }

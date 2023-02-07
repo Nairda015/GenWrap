@@ -2,8 +2,6 @@
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using System.Collections.Immutable;
-using Xunit.Abstractions;
 
 namespace TestsExtensions.UnitTests.Analyzers;
 
@@ -32,14 +30,10 @@ public static class AnalyzerVerifier<TAnalyzer>
            params DiagnosticResult[] expected)
         {
             TestCode = source;
+
             ExpectedDiagnostics.AddRange(expected);
 
-            ReferenceAssemblies = ReferenceAssemblies.WithPackages(
-                ImmutableArray.Create(new PackageIdentity[] 
-                {
-                    new PackageIdentity("Microsoft.NETCore.App.Ref", "7.0.0"),
-                    new PackageIdentity("xunit.extensibility.core", "2.4.2")
-                }));
+            ReferenceAssemblies = ReferenceAssemblies.GetPackages();
 
             TestState.AdditionalReferences.Add(atributeType.Assembly);
         }
