@@ -13,12 +13,12 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
     {
         var expectedFirst = Verifier
             .Diagnostic(TextExtensionsDescriptors.TE0001_JsonDataAttributeMustHaveUniquePathParam.Id)
-            .WithLocation(8, 6)
+            .WithLocation(7, 6)
             .WithArguments("Test", "ChartTests");
 
         var expectedSecond = Verifier
             .Diagnostic(TextExtensionsDescriptors.TE0001_JsonDataAttributeMustHaveUniquePathParam.Id)
-            .WithLocation(9, 6)
+            .WithLocation(8, 6)
             .WithArguments("Test", "ChartTests");
 
         await Verifier.VerifyAnalyzerAsync(source, typeof(JsonDataAttribute), new[] { expectedFirst , expectedSecond } );
@@ -41,8 +41,8 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 
         public class ChartTests
         {
-            [JsonData(""Test"")]
-            [JsonData(""Test"")]
+            [JsonData("Test")]
+            [JsonData("Test")]
             public void Test()
             {
             }  
@@ -56,14 +56,14 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 
         public class ChartTests
         {
-            [JsonData(""Test"")]
-            [JsonData(""Test"")]
+            [JsonData("Test")]
+            [JsonData("Test")]
             public void Test()
             {
             }  
 
-            [JsonData(""Test"")]
-            [JsonData(""Test1"")]
+            [JsonData("Test")]
+            [JsonData("Test1")]
             public void Test1()
             {
             }  
@@ -77,8 +77,8 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 
         public class ChartTests
         {
-            [JsonData(""Test"")]
-            [JsonData(""Test1"")]
+            [JsonData("Test")]
+            [JsonData("Test1")]
             public void Test()
             {
             }  
