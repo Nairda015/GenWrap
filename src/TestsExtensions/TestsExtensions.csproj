@@ -29,4 +29,8 @@
         </ItemGroup>
     </Target>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="TestsExtensions.UnitTests" />
+	</ItemGroup>
+
 </Project>
