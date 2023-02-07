@@ -11,4 +11,11 @@ internal class TextExtensionsDescriptors
         "Usage",
         DiagnosticSeverity.Warning,
         true);
+        public static readonly DiagnosticDescriptor TE0002_TheoryAttirubteOverJsonDataAttribute = new DiagnosticDescriptor(
+        "TE0002",
+        "TheoryAttribute is over JsonDataAttribute",
+        "Invalid test attribute, for proper assembly scanning use JsonTheroyAttrbute instead of TheoryAttribute",
+        "Usage",
+        DiagnosticSeverity.Error,
+        true);
 }
