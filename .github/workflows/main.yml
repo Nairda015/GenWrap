@@ -94,18 +94,16 @@ jobs:
           automatic_release_tag: ${{ secrets.APP_VERSION }}
           title: "Release version: ${{ secrets.APP_VERSION }}"
 
-#      - name: Dotnet Push to Github Packages
-#        shell: bash
-#        if: github.event_name == 'push'
-#        run: |
-#          dotnet tool restore
-#          find . -name "*.nupkg" | xargs -n1 dotnet nuget push --api-key=${{ secrets.github_token }} --source https://nuget.pkg.github.com/EventStore/index.json --skip-duplicate
-#
-#      - name: Dotnet Push to Nuget.org
-#        shell: bash
-#        if: contains(steps.get_version.outputs.branch, 'v')
-#        run: |
-#          dotnet nuget list source
-#          dotnet tool restore
-#          find . -name "*.nupkg" | xargs -n1 dotnet nuget push --api-key=${{ secrets.nuget_key }} --skip-duplicate
+      - name: dotnet push to github packages
+        shell: bash
+        run: |
+          dotnet tool restore
+          find . -name "*.nupkg" | xargs -n1 dotnet nuget push --api-key=${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/Nairda015/index.json --skip-duplicate
+
+      - name: dotnet push to nuget.org
+        shell: bash
+        run: |
+          dotnet nuget list source
+          dotnet tool restore
+          find . -name "*.nupkg" | xargs -n1 dotnet nuget push --api-key=${{ secrets.NUGET_KEY }} --skip-duplicate
       
