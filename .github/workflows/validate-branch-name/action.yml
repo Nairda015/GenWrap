@@ -12,7 +12,7 @@ runs:
       shell: bash
       run: |
         echo Branch name:  ${{ inputs.branch_name }}
-        declare regex="^(feature|bugfix)\/#[0-9]{2,4}-[a-z,_]{3,}$";
+        declare regex="^(feature|bugfix)\/#[0-9]{2,4}-[a-zA-Z,_]{3,}$";
         if [[ ${{ inputs.branch_name }} =~ $regex ]]; then
           echo "Branch name is in correct format"
         else
