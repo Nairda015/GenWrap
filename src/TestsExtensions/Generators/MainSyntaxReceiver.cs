@@ -6,7 +6,7 @@ namespace TestsExtensions.Generators;
 
 internal sealed class MainSyntaxReceiver : ISyntaxReceiver
 {
-    public List<JsonMatch> JsonMatches { get; set; } = new();
+    public List<JsonMatch> JsonMatches { get; } = new();
 
     public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
     {
