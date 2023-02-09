@@ -45,7 +45,7 @@ jobs:
         with:
           name: 'APP_VERSION'
           value: ${{ steps.bump_version.outputs.next-version }}
-          repository: ${{ env.GITHUB_REPOSITORY }}
+          repository: "Nairda015/TestsExtensions"
           token: ${{ secrets.PAT_SEMVER_ROTATE_01_02_2024 }}
   
   cd:
