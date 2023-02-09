@@ -3,6 +3,16 @@ name: CICD
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      custom-version:
+        required: false
+        default: 'bug'
+        type: choice
+        options:
+        - 'feature'
+        - 'bug'
+        - 'major'
 
 jobs:
   
@@ -80,19 +90,13 @@ jobs:
           path: packages
           name: nuget-packages
 
-      - name: add tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ secrets.APP_VERSION }}
-
       - name: create a github release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: ${{ secrets.APP_VERSION }}
           title: "Release version: ${{ secrets.APP_VERSION }}"
+          prerelease: false
 
       - name: dotnet push to github packages
         shell: bash
