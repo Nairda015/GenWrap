@@ -25,7 +25,7 @@ jobs:
 
       - name: override
         if: ${{ github.event.inputs.custom_version == '' }}
-        run: echo "VERSION=bug" >> $GITHUB_ENV
+        run: echo "VERSION_TYPE=bug" >> $GITHUB_ENV
 
       - name: checkout
         uses: actions/checkout@v3.3.0
@@ -43,7 +43,7 @@ jobs:
         uses: christian-draeger/increment-semantic-version@1.0.2
         with:
           current-version: ${{ secrets.APP_VERSION }}
-          version-fragment: ${{ env.VERSION }}
+          version-fragment: ${{ env.VERSION_TYPE }}
 
       - name: build
         run: dotnet build --no-restore --configuration Release -p:Version=${{ steps.bump_version.outputs.next-version }}
