@@ -14,9 +14,13 @@ jobs:
       
       - name: validate branch name
         uses: Nairda015/TestsExtensions/.github/workflows/validate-branch-name@feature/#12-configure_deployment
+        with:
+          branch_name: ${{ github.head_ref }}
 
       - name: setup dotnet
         uses: Nairda015/TestsExtensions/.github/workflows/setup@feature/#12-configure_deployment
+        with:
+          dotnet_version: 7.0.x
         
       - name: build
         run: dotnet build --no-restore --configuration Release
