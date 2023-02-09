@@ -83,7 +83,7 @@ jobs:
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: "Nairda015/TestsExtensions"
           custom_tag: ${{ secrets.APP_VERSION }}
 
       - name: create a github release
