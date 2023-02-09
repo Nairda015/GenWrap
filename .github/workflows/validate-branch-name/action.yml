@@ -1,0 +1,19 @@
+name: Validate branch name
+description: 'Validate branch name'
+
+inputs:
+  branch_name:
+    description: 'Branch name to validate'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Check if branch name is in correct format
+      shell: bash
+      run: |
+        if [[ $branch_name =~ ^(feature|bugfix)/#[0-9]+-[^-, \s]*$ ]]; then
+          echo "Branch name is in correct format"
+        else
+          echo "Branch name is not in correct format"
+          exit 1
+        fi    
