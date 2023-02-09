@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace TestsExtensions.Examples.ChartExample;
 
+[ExcludeFromCodeCoverage]
 public class Chart
 {
     public List<ChartPoint> SimplifyPriceChangedSet(IEnumerable<PriceChangedEvent> events)

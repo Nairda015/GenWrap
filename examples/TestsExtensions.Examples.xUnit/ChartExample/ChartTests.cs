@@ -1,5 +1,6 @@
 using FluentAssertions;
 using TestsExtensions.Examples.ChartExample;
+using Xunit;
 
 namespace TestsExtensions.Examples.xUnit.ChartExample;
 
