@@ -1,11 +1,11 @@
 ﻿using Microsoft.CodeAnalysis.Testing;
 using System.Collections.Immutable;
 
-namespace TestsExtensions.UnitTests.Analyzers;
+namespace TestsExtensions.UnitTests.Extensions;
 
-public static class Packages
+internal static class ReferenceAssembliesExtension
 {
-    public static ReferenceAssemblies GetPackages(this ReferenceAssemblies referenceAssemblies)
+    internal static ReferenceAssemblies GetPackages(this ReferenceAssemblies referenceAssemblies)
         => referenceAssemblies.WithPackages(
             ImmutableArray.Create(new PackageIdentity[]
             {
