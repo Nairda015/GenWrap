@@ -7,6 +7,7 @@
 
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 // ReSharper disable once CheckNamespace
@@ -15,6 +16,7 @@ namespace System.IO;
 // Provides methods for processing file system strings in a cross-platform manner.
 // Most of the methods don't do a complete parsing (such as examining a UNC hostname), 
 // but they will handle most string operations.
+[ExcludeFromCodeCoverage]
 internal static class PathNetCore {
 
     /// <summary>
@@ -114,24 +116,20 @@ internal static class PathNetCore {
     public static readonly char DirectorySeparatorChar = PathInternalNetCore.DirectorySeparatorChar;
     public static readonly char AltDirectorySeparatorChar = PathInternalNetCore.AltDirectorySeparatorChar;
     public static readonly char VolumeSeparatorChar = PathInternalNetCore.VolumeSeparatorChar;
-    public static readonly char PathSeparator = PathInternalNetCore.PathSeparator;
 
     /// <summary>Returns a comparison that can be used to compare file and directory names for equality.</summary>
     internal static StringComparison StringComparison => StringComparison.OrdinalIgnoreCase;
 }
 
 /// <summary>Contains internal path helpers that are shared between many projects.</summary>
+[ExcludeFromCodeCoverage]
 internal static class PathInternalNetCore {
     internal const char DirectorySeparatorChar = '\\';
     internal const char AltDirectorySeparatorChar = '/';
     internal const char VolumeSeparatorChar = ':';
-    internal const char PathSeparator = ';';
 
     internal const string ExtendedDevicePathPrefix = @"\\?\";
-    internal const string UncPathPrefix = @"\\";
-    internal const string UncDevicePrefixToInsert = @"?\UNC\";
     internal const string UncExtendedPathPrefix = @"\\?\UNC\";
-    internal const string DevicePathPrefix = @"\\.\";
 
     //internal const int MaxShortPath = 260;
 
