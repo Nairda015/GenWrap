@@ -68,7 +68,7 @@ jobs:
       - name: dotnet pack
         shell: bash
         run: |
-          dotnet pack /p:Version=${{ steps.bump_version.outputs.next-version }} --configuration=Release --output=./packages \
+          dotnet pack /p:Version=${{ secrets.APP_VERSION }} --configuration=Release --output=./packages \
           /p:NoWarn=NU5105 \
           /p:RepositoryUrl=https://github.com/Nairda015/TestsExtensions \
           /p:RepositoryType=git
