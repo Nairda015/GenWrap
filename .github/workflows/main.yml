@@ -3,9 +3,6 @@ name: CICD
 on:
   push:
     branches: [ main ]
-      
-ignore:
-  - "examples/**/*"
 
 jobs:
   
@@ -42,6 +39,8 @@ jobs:
 
       - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
+        with:
+          gcov_ignore: "examples/**/*"
 
       - name: update patch version
         uses: hmanzur/actions-set-secret@v2.0.0

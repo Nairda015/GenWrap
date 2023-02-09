@@ -3,9 +3,6 @@ name: CI
 on:
   pull_request:
     branches: [ main ]
-
-ignore:
-  - "examples/**/*"
   
 jobs:
   ci:
@@ -42,6 +39,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
+          gcov_ignore: "examples/**/*"
 
       - name: upload Logs From Failure Run
         uses: actions/upload-artifact@v3.1.0
