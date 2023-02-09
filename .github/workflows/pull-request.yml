@@ -13,10 +13,10 @@ jobs:
     steps:
       
       - name: validate branch name
-        uses: .github/workflows/validate-branch-name
+        uses: Nairda015/TestsExtensions/.github/workflows/validate-branch-name@feature/#12-configure_deployment
 
       - name: setup dotnet
-        uses: .github/workflows/setup
+        uses: Nairda015/TestsExtensions/.github/workflows/setup@feature/#12-configure_deployment
         
       - name: build
         run: dotnet build --no-restore --configuration Release
