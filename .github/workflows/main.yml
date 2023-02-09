@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   workflow_dispatch:
     inputs:
-      custom-version:
+      custom_version:
         required: false
         default: 'bug'
         type: choice
@@ -23,6 +23,10 @@ jobs:
       fail-fast: true
     steps: 
 
+      - name: override
+        if: ${{ github.event.inputs.custom_version == '' }}
+        run: echo "VERSION=bug" >> $GITHUB_ENV
+
       - name: checkout
         uses: actions/checkout@v3.3.0
 
@@ -39,7 +43,7 @@ jobs:
         uses: christian-draeger/increment-semantic-version@1.0.2
         with:
           current-version: ${{ secrets.APP_VERSION }}
-          version-fragment: 'bug'
+          version-fragment: ${{ env.VERSION }}
 
       - name: build
         run: dotnet build --no-restore --configuration Release -p:Version=${{ steps.bump_version.outputs.next-version }}
