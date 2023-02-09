@@ -6,3 +6,4 @@
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
 TE0001  | Usage    | Warning  | TextExtensionsDescriptors
+TE0002  | Usage    | Error    | TextExtensionsDescriptors

@@ -1,11 +1,12 @@
 using FluentAssertions;
 using TestsExtensions.Examples.ChartExample;
+using Xunit;
 
 namespace TestsExtensions.Examples.xUnit.ChartExample;
 
 public class ChartTests
 {
-    [JsonTheory<IMarker>]
+    [JsonTheory<ChartTests>]
     [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json")]
     [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_02.json")]
     public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(
