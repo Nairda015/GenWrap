@@ -8,6 +8,12 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <IsPackable>true</IsPackable>
+        <PackageId>TestsExtensions</PackageId>
+        <Authors>Adrian Franczak;Łukasz Strus</Authors>
+        <PackageDescription>This package simplify working with jsons input in tests</PackageDescription>
+        <RepositoryUrl>https://github.com/Nairda015/TestsExtensions</RepositoryUrl>
+        <PackageTags>tests;xUnit;source-generators;json</PackageTags>
+        <Title>Sourse-generated extensions for unit tests</Title>
     </PropertyGroup>
 
     <ItemGroup>
