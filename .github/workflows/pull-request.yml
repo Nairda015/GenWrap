@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [ main ]
 
+ignore:
+  - "examples/**/*"
+  
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -37,8 +40,6 @@ jobs:
 
       - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
-        ignore:
-          - "examples/**/*"
         with:
           fail_ci_if_error: true
 
