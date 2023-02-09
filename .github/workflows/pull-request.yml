@@ -16,7 +16,7 @@ jobs:
         uses: .github/workflows/validate-branch-name
 
       - name: setup dotnet
-      - uses: .github/workflows/setup
+        uses: .github/workflows/setup
         
       - name: build
         run: dotnet build --no-restore --configuration Release
