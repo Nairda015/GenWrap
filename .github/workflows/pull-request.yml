@@ -24,7 +24,7 @@ jobs:
       - name: test
         run: dotnet test /p:Configuration=Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
-      - name: upload coverage reports to Codecov
+      - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
