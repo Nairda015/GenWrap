@@ -10,9 +10,9 @@ runs:
   steps:
     - name: Check if branch name is in correct format
       shell: bash
-      run: |
-        echo Branch name: $$branch_name
-        if [[ $branch_name =~ ^(feature|bugfix)\/#[0-9]{2,4}-[^-\s]{3,}$ ]]; then
+      run: | 
+        echo Branch name:  ${{ inputs.branch_name }}
+        if [[ ${{ inputs.branch_name }} =~ ^(feature|bugfix)\/#[0-9]{2,4}-[^-\s]{3,}$ ]]; then
           echo "Branch name is in correct format"
         else
           echo "Branch name is not in correct format"
