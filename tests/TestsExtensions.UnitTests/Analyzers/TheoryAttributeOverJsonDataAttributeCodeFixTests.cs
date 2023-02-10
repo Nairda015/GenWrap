@@ -1,15 +1,15 @@
 ﻿using TestsExtensions.Analyzers;
 using Verifier = TestsExtensions.UnitTests.Analyzers.AnalyzerAndCodeFixVerifier<
     TestsExtensions.Analyzers.TheoryAttirubteOverJsonDataAttribute,
-    TestsExtensions.Analyzers.TheoryAttirubteOverJsonDataAttributeCodeFix>;
+    TestsExtensions.Analyzers.TheoryAttributeOverJsonDataAttributeCodeFix>;
 
 namespace TestsExtensions.UnitTests.Analyzers;
 
-public sealed class TheoryAttirubteOverJsonDataAttributeCodeFixTests
+public sealed class TheoryAttributeOverJsonDataAttributeCodeFixTests
 {
     [Theory]
-    [InlineData(_sourceWithWarnings1, _fixSourceWithWarnings1)]
-    [InlineData(_sourceWithWarnings2, _fixSourceWithWarnings2)]
+    [InlineData(SourceWithWarnings1, FixSourceWithWarnings1)]
+    [InlineData(SourceWithWarnings2, FixSourceWithWarnings2)]
     public async Task Analyzer_JsonTheoryAttribute_ShouldThrowWarning(string source, string fixSource)
     {
         var expectedFirst = Verifier
@@ -19,7 +19,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeCodeFixTests
         await Verifier.VerifyCodeFixAsync(source, fixSource, typeof(JsonTheoryAttribute), expectedFirst);
     }
 
-    private const string _sourceWithWarnings1 = """
+    private const string SourceWithWarnings1 = """
         using Xunit;
         using TestsExtensions;
 
@@ -35,7 +35,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeCodeFixTests
         }
         """;
 
-    private const string _sourceWithWarnings2 = """
+    private const string SourceWithWarnings2 = """
         using Xunit;
         using TestsExtensions;
 
@@ -57,7 +57,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeCodeFixTests
         }
         """;
 
-    private const string _fixSourceWithWarnings1 = """
+    private const string FixSourceWithWarnings1 = """
         using Xunit;
         using TestsExtensions;
 
@@ -73,7 +73,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeCodeFixTests
         }
         """;
 
-    private const string _fixSourceWithWarnings2 = """
+    private const string FixSourceWithWarnings2 = """
         using Xunit;
         using TestsExtensions;
 

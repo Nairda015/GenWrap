@@ -7,7 +7,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     strategy:
       fail-fast: true
     steps:
@@ -34,16 +34,41 @@ jobs:
 
       - name: test
         run: dotnet test /p:Configuration=Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-
+      
       - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
+          
+  tests: 
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
+    steps:
 
-      - name: upload Logs From Failure Run
-        uses: actions/upload-artifact@v3.1.0
-        if: failure()
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: validate branch name
+        uses: ./.github/workflows/validate-branch-name
         with:
-          name: logfile
-          path: "**/logs/log.txt"
-          retention-days: 1
+          branch_name: ${{ github.head_ref }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+          
+      - name: mutation tests
+        run: |
+          dotnet tool restore
+          dotnet stryker -b 50
+          
+      - name: upload test mutation reports
+        uses: actions/upload-artifact@v3.1.0
+        if: always()
+        with:
+          name: mutation-report
+          path: "**/mutation-report.html"
+          retention-days: 30

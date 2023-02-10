@@ -7,8 +7,8 @@ namespace TestsExtensions.UnitTests.Analyzers;
 public sealed class TheoryAttirubteOverJsonDataAttributeTests
 {
     [Theory]
-    [InlineData(_sourceWithWarnings1)]
-    [InlineData(_sourceWithWarnings2)]
+    [InlineData(SourceWithWarnings1)]
+    [InlineData(SourceWithWarnings2)]
     public async Task Analyzer_JsonTheoryAttribute_ShouldThrowWarning(string source)
     {
         var expectedFirst = Verifier
@@ -19,14 +19,14 @@ public sealed class TheoryAttirubteOverJsonDataAttributeTests
     }
 
     [Theory]
-    [InlineData(_sourceWithoutWarnings1)]
-    [InlineData(_sourceWithoutWarnings2)]
+    [InlineData(SourceWithoutWarnings1)]
+    [InlineData(SourceWithoutWarnings2)]
     public async Task Analyzer_JsonTheoryAttribute_NotShouldThrowWarning(string source)
     {
         await Verifier.VerifyAnalyzerAsync(source, typeof(JsonTheoryAttribute));
     }
 
-    private const string _sourceWithWarnings1 = """
+    private const string SourceWithWarnings1 = """
         using Xunit;
         using TestsExtensions;
 
@@ -42,7 +42,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeTests
         }
         """;
 
-    private const string _sourceWithWarnings2 = """
+    private const string SourceWithWarnings2 = """
         using Xunit;
         using TestsExtensions;
 
@@ -65,7 +65,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeTests
 
         """;
 
-    private const string _sourceWithoutWarnings1 = """
+    private const string SourceWithoutWarnings1 = """
         using Xunit;
         using TestsExtensions;
 
@@ -80,7 +80,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeTests
         }
         """;
 
-    private const string _sourceWithoutWarnings2 = """
+    private const string SourceWithoutWarnings2 = """
         using Xunit;
         using TestsExtensions;
 

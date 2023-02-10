@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.Testing;
 using System.Collections.Immutable;
+// ReSharper disable RedundantExplicitArrayCreation
 
 namespace TestsExtensions.UnitTests.Extensions;
 

@@ -18,10 +18,10 @@ public class JsonDataAttribute : DataAttribute
     public override IEnumerable<object[]> GetData(MethodInfo _)
     {
         var fileData = _filePath.GetJsonFileData();
-        if (string.IsNullOrWhiteSpace(fileData)) return new List<object[]>();
+        if (string.IsNullOrWhiteSpace(fileData)) throw new FileIsEmptyException(_filePath);
 
         return SignatureWrapperStore.TryGetValue(_filePath, out var wrapper)
             ? wrapper!.Deserialize(fileData)
-            : throw new AssemblyScanningException("Scanning for test objects failed");
+            : throw new AssemblyScanningException();
     }
 }
