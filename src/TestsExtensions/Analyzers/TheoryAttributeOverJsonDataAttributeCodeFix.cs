@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 namespace TestsExtensions.Analyzers;
 
 [ExportCodeFixProvider(LanguageNames.CSharp)]
-internal class TheoryAttirubteOverJsonDataAttributeCodeFix : CodeFixProvider
+internal class TheoryAttributeOverJsonDataAttributeCodeFix : CodeFixProvider
 {
     public override ImmutableArray<string> FixableDiagnosticIds { get; }
         = ImmutableArray.Create(TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute.Id);

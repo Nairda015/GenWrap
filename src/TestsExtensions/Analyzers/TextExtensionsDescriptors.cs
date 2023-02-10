@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+// ReSharper disable InconsistentNaming
 
 namespace TestsExtensions.Analyzers;
 

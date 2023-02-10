@@ -35,15 +35,28 @@ jobs:
       - name: test
         run: dotnet test /p:Configuration=Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
+      - name: mutation tests
+        run: |
+          dotnet tool restore
+          dotnet stryker -b 60
+      
       - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
 
-      - name: upload Logs From Failure Run
+      - name: upload logs from failure run
         uses: actions/upload-artifact@v3.1.0
         if: failure()
         with:
           name: logfile
           path: "**/logs/log.txt"
           retention-days: 1
+
+      - name: upload test mutation reports
+        uses: actions/upload-artifact@v3.1.0
+        if: always()
+        with:
+          name: mutation-report
+          path: "**/mutation-report.html"
+          retention-days: 30

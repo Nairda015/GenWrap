@@ -9,7 +9,7 @@ internal static class SignatureWrapperStore
 
     public static bool TryGetValue(string key, out ISignatureWrapper? value)
     {
-        if (Store.Count == 0) throw new SignatureWrapperStoreException("Store is empty");
+        if (Store.Count == 0) throw new SignatureWrapperStoreIsEmptyException();
         return Store.TryGetValue(key, out value);
     }
 
@@ -21,6 +21,7 @@ internal static class SignatureWrapperStore
 
     public static void ScanAssembly(Assembly assembly)
     {
+        if (Store.Count > 0) return;
         assembly
             .GetTypes()
             .Where(x => typeof(ISignatureWrapper).IsAssignableFrom(x) && x.IsClass)
@@ -34,4 +35,6 @@ internal static class SignatureWrapperStore
     {
         if (!Store.ContainsKey(x.Key)) Store.Add(x.Key, x);
     }
+    
+    internal static void Clear() => Store.Clear();
 }
