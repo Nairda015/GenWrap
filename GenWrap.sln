@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sf", "sf", "{406AA2CC-473B-
 		.gitignore = .gitignore
 		gitattributes.txt = gitattributes.txt
 		LICENSE = LICENSE
+		.config\dotnet-tools.json = .config\dotnet-tools.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenWrap.Examples", "examples\GenWrap.Examples\GenWrap.Examples.csproj", "{EC390CC5-5A7E-4B2C-A29D-F16A22BA75B9}"
