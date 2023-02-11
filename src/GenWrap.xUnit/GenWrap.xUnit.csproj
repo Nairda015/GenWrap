@@ -10,6 +10,7 @@
         <PackageId>GenWrap.xUnit</PackageId>
         <Authors>Adrian Franczak;Łukasz Strus</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon>icon.png</PackageIcon>
         <PackageDescription>This package simplify working with jsons input in tests</PackageDescription>
         <RepositoryUrl>https://github.com/Nairda015/GenWrap</RepositoryUrl>
         <PackageTags>tests;xUnit;source-generators;json</PackageTags>
@@ -49,6 +50,7 @@
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
         <None Include="../../README.md" Pack="true" PackagePath="/" />
+        <None Include="../../icon.png" Pack="true" PackagePath="/" />
 	</ItemGroup>
 
 </Project>
