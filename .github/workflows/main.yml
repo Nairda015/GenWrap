@@ -13,11 +13,13 @@ on:
         - 'feature'
         - 'bug'
         - 'major'
-        - 'pre'
       is_prerelease:
         required: true
-        default: false
-        type: boolean
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 jobs:
   
@@ -26,8 +28,11 @@ jobs:
     timeout-minutes: 10
     strategy:
       fail-fast: true
+    outputs:
+      next_version: ${{ env.NEXT_VERSION }}
     steps: 
 
+      - run: echo "VERSION_TYPE=${{ github.event.inputs.version_type }}" >> $GITHUB_ENV
       - name: override version type
         if: ${{ github.event.inputs.version_type == '' }}
         run: echo "VERSION_TYPE=bug" >> $GITHUB_ENV
@@ -50,8 +55,18 @@ jobs:
           current-version: ${{ secrets.APP_VERSION }}
           version-fragment: ${{ env.VERSION_TYPE }}
 
+      - run: echo "NEXT_VERSION=${{ steps.bump_version.outputs.next-version }}" >> $GITHUB_ENV
+        
+      - name: bump version
+        id: bump_version_rc
+        if: ${{ env.IS_PRERELEASE == 'true' }}
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ env.NEXT_VERSION }}
+          version-fragment: 'rc'
+
       - name: build
-        run: dotnet build --no-restore --configuration Release -p:Version=${{ steps.bump_version.outputs.next-version }}
+        run: dotnet build --no-restore --configuration Release -p:Version=${{ env.NEXT_VERSION }}
 
       - name: test
         run: dotnet test /p:Configuration=Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
@@ -63,7 +78,7 @@ jobs:
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'APP_VERSION'
-          value: ${{ steps.bump_version.outputs.next-version }}
+          value: ${{ env.NEXT_VERSION }}
           repository: "Nairda015/GenWrap"
           token: ${{ secrets.PAT_SEMVER_ROTATE_01_02_2024 }}
   
@@ -74,6 +89,7 @@ jobs:
     timeout-minutes: 10
     steps:
 
+      - run: echo "NEXT_VERSION=${{ needs.ci.outputs.next_version }}" >> $GITHUB_ENV
       - run: echo "IS_PRERELEASE=${{ github.event.inputs.is_prerelease }}" >> $GITHUB_ENV
       - name: override is prerelease
         if: ${{ github.event.inputs.is_prerelease == '' }}
@@ -93,7 +109,7 @@ jobs:
       - name: dotnet pack
         shell: bash
         run: |
-          dotnet pack /p:Version=${{ secrets.APP_VERSION }} --configuration=Release --output=./packages \
+          dotnet pack /p:Version=${{ env.NEXT_VERSION }} --configuration=Release --output=./packages \
           /p:NoWarn=NU5105 \
           /p:RepositoryUrl=https://github.com/Nairda015/GenWrap \
           /p:RepositoryType=git
@@ -108,9 +124,9 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ secrets.APP_VERSION }}
-          title: "Release version: ${{ secrets.APP_VERSION }}"
-          prerelease: ${{ env.IS_PRERELEASE }}
+          automatic_release_tag: ${{ env.NEXT_VERSION }}
+          title: "Release version: ${{ env.NEXT_VERSION }}"
+          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
 
       - name: dotnet push to github packages
         shell: bash
@@ -120,5 +136,5 @@ jobs:
 
       - name: dotnet push to nuget.org
         shell: bash
-        run: dotnet nuget push "packages/*.nupkg" --api-key ${{secrets.NUGET_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "packages/*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       

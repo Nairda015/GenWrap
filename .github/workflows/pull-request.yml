@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3.3.0
 
       - name: validate branch name
-        uses: ./.github/workflows/validate-branch-name
+        uses: ./.github/actions/validate-branch-name
         with:
           branch_name: ${{ github.head_ref }}
 
@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v3.3.0
 
       - name: validate branch name
-        uses: ./.github/workflows/validate-branch-name
+        uses: ./.github/actions/validate-branch-name
         with:
           branch_name: ${{ github.head_ref }}
 
