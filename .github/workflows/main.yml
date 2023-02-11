@@ -13,7 +13,7 @@ on:
         - 'feature'
         - 'bug'
         - 'major'
-        - 'pre'
+        - 'rc'
       is_prerelease:
         required: true
         default: false
@@ -49,9 +49,11 @@ jobs:
         with:
           current-version: ${{ secrets.APP_VERSION }}
           version-fragment: ${{ env.VERSION_TYPE }}
+      
+      - run: echo "NEXT_VERSION=${{ steps.bump_version.outputs.next-version }}" >> $GITHUB_ENV
 
       - name: build
-        run: dotnet build --no-restore --configuration Release -p:Version=${{ steps.bump_version.outputs.next-version }}
+        run: dotnet build --no-restore --configuration Release -p:Version=${{ env.NEXT_VERSION }}
 
       - name: test
         run: dotnet test /p:Configuration=Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
@@ -63,7 +65,7 @@ jobs:
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'APP_VERSION'
-          value: ${{ steps.bump_version.outputs.next-version }}
+          value: ${{ env.NEXT_VERSION }}
           repository: "Nairda015/GenWrap"
           token: ${{ secrets.PAT_SEMVER_ROTATE_01_02_2024 }}
   
@@ -93,7 +95,7 @@ jobs:
       - name: dotnet pack
         shell: bash
         run: |
-          dotnet pack /p:Version=${{ secrets.APP_VERSION }} --configuration=Release --output=./packages \
+          dotnet pack /p:Version=${{ env.NEXT_VERSION }} --configuration=Release --output=./packages \
           /p:NoWarn=NU5105 \
           /p:RepositoryUrl=https://github.com/Nairda015/GenWrap \
           /p:RepositoryType=git
@@ -108,7 +110,7 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ secrets.APP_VERSION }}
+          automatic_release_tag: ${{ env.NEXT_VERSION }}
           title: "Release version: ${{ secrets.APP_VERSION }}"
           prerelease: ${{ env.IS_PRERELEASE }}
 
