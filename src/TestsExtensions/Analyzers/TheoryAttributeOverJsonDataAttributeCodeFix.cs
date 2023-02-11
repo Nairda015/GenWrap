@@ -11,7 +11,7 @@ namespace TestsExtensions.Analyzers;
 internal class TheoryAttributeOverJsonDataAttributeCodeFix : CodeFixProvider
 {
     public override ImmutableArray<string> FixableDiagnosticIds { get; }
-        = ImmutableArray.Create(TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute.Id);
+        = ImmutableArray.Create(TextExtensionsDescriptors.TE0002_TheoryAttributeOverJsonDataAttribute.Id);
 
     public override FixAllProvider GetFixAllProvider()
     {
@@ -22,9 +22,9 @@ internal class TheoryAttributeOverJsonDataAttributeCodeFix : CodeFixProvider
     {
         foreach (var diagnostic in context.Diagnostics)
         {
-            if (diagnostic.Id != TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute.Id) continue;
+            if (diagnostic.Id != TextExtensionsDescriptors.TE0002_TheoryAttributeOverJsonDataAttribute.Id) continue;
 
-            var title = TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute.Title.ToString();
+            var title = TextExtensionsDescriptors.TE0002_TheoryAttributeOverJsonDataAttribute.Title.ToString();
 
             var action = CodeAction.Create(
                 title,

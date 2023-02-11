@@ -20,10 +20,10 @@ public static class AnalyzerAndCodeFixVerifier<TAnalyzer, TCodeFix>
     public static async Task VerifyCodeFixAsync(
        string source,
        string fixedSource,
-       Type atributeType,
+       Type attributeType,
        params DiagnosticResult[] expected)
     {
-        var test = new CodeFixTest(source, fixedSource, atributeType, expected);
+        var test = new CodeFixTest(source, fixedSource, attributeType, expected);
         await test.RunAsync(CancellationToken.None);
     }
 
@@ -32,14 +32,14 @@ public static class AnalyzerAndCodeFixVerifier<TAnalyzer, TCodeFix>
         public CodeFixTest(
            string source,
            string fixedSource,
-           Type atributeType,
+           Type attributeType,
            params DiagnosticResult[] expected)
         {
             TestCode = source;
             FixedCode = fixedSource;
             ExpectedDiagnostics.AddRange(expected);
             ReferenceAssemblies = ReferenceAssemblies.GetPackages();
-            TestState.AdditionalReferences.Add(atributeType.Assembly);
+            TestState.AdditionalReferences.Add(attributeType.Assembly);
         }
     }
 }

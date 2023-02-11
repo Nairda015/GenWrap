@@ -8,10 +8,10 @@ using TestsExtensions.Internal.Extensions;
 namespace TestsExtensions.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal sealed class TheoryAttirubteOverJsonDataAttribute : DiagnosticAnalyzer
+internal sealed class TheoryAttributeOverJsonDataAttribute : DiagnosticAnalyzer
 {
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
-        = ImmutableArray.Create(TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute);
+        = ImmutableArray.Create(TextExtensionsDescriptors.TE0002_TheoryAttributeOverJsonDataAttribute);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -36,7 +36,7 @@ internal sealed class TheoryAttirubteOverJsonDataAttribute : DiagnosticAnalyzer
         if (!attributes.Any()) return;
 
         var error = Diagnostic.Create(
-            TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute,
+            TextExtensionsDescriptors.TE0002_TheoryAttributeOverJsonDataAttribute,
             attr.GetLocation());
 
         context.ReportDiagnostic(error);

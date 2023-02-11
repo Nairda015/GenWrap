@@ -15,7 +15,7 @@ namespace TestsExtensions.UnitTests.Generators;
 public sealed class SignatureWrapperBuilderTests
 {
     [Theory]
-    [InlineData(_source, _path, _expectedSource)]
+    [InlineData(Source, Path, _expectedSource)]
     internal void Build_ForSource_ReturnGeneratedSource(string source, string path, string expectedResult)
     {
         // Arrange
@@ -32,9 +32,9 @@ public sealed class SignatureWrapperBuilderTests
         result.RemoveWhitespace().Should().Be(expectedResult.RemoveWhitespace());
     }
 
-    private const string _path = "ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json";
+    private const string Path = "ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json";
 
-    private const string _source = """
+    private const string Source = """
         using FluentAssertions;
         using TestsExtensions.Examples.ChartExample;
         using Xunit;

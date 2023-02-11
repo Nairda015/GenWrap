@@ -14,7 +14,6 @@ internal sealed class SignatureWrapperGenerator : ISourceGenerator
 
         foreach (var (path, method) in receiver.JsonMatches)
         {
-            
             builder.SetUsings(method);
             builder.SetFilePath(path);
             builder.SetProperties(method);
