@@ -5,14 +5,22 @@ on:
     branches: [ main ]
   workflow_dispatch:
     inputs:
-      custom_version:
-        required: false
+      version_type:
+        required: true
         default: 'bug'
         type: choice
         options:
         - 'feature'
         - 'bug'
         - 'major'
+        - 'pre'
+      is_prerelease:
+        required: true
+        default: 'false'
+        type: choice
+        options:
+        - 'true'
+        - 'false'
 
 jobs:
   
@@ -23,8 +31,8 @@ jobs:
       fail-fast: true
     steps: 
 
-      - name: override
-        if: ${{ github.event.inputs.custom_version == '' }}
+      - name: override version type
+        if: ${{ github.event.inputs.version_type == '' }}
         run: echo "VERSION_TYPE=bug" >> $GITHUB_ENV
 
       - name: checkout
@@ -54,7 +62,7 @@ jobs:
       - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
 
-      - name: update patch version
+      - name: update version in secrets
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'APP_VERSION'
@@ -68,6 +76,10 @@ jobs:
     permissions: write-all
     timeout-minutes: 10
     steps:
+
+      - name: override is prerelease
+        if: ${{ github.event.inputs.is_prerelease == '' }}
+        run: echo "IS_PRERELEASE=false" >> $GITHUB_ENV
 
       - name: checkout
         uses: actions/checkout@v3.3.0
@@ -100,7 +112,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: ${{ secrets.APP_VERSION }}
           title: "Release version: ${{ secrets.APP_VERSION }}"
-          prerelease: false
+          prerelease: ${{ env.IS_PRERELEASE }}
 
       - name: dotnet push to github packages
         shell: bash

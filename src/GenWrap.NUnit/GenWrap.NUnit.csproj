@@ -6,8 +6,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <IsPackable>true</IsPackable>
+        <IsPackable>false</IsPackable>
         <PackageId>GenWrap.NUnit</PackageId>
         <Authors>Adrian Franczak;Łukasz Strus</Authors>
         <PackageDescription>This package simplify working with jsons input in tests</PackageDescription>

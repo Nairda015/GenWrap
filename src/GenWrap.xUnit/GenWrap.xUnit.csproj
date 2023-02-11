@@ -6,7 +6,6 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <IsPackable>true</IsPackable>
         <PackageId>GenWrap.xUnit</PackageId>
         <Authors>Adrian Franczak;Łukasz Strus</Authors>
