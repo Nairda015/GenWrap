@@ -13,11 +13,13 @@ on:
         - 'feature'
         - 'bug'
         - 'major'
-        - 'rc'
       is_prerelease:
         required: true
-        default: false
-        type: boolean
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 jobs:
   
@@ -28,9 +30,15 @@ jobs:
       fail-fast: true
     steps: 
 
+      - run: echo "VERSION_TYPE=${{ github.event.inputs.version_type }}" >> $GITHUB_ENV
       - name: override version type
         if: ${{ github.event.inputs.version_type == '' }}
         run: echo "VERSION_TYPE=bug" >> $GITHUB_ENV
+        
+      - run: echo "IS_PRERELEASE=${{ github.event.inputs.is_prerelease }}" >> $GITHUB_ENV
+      - name: override is prerelease
+        if: ${{ github.event.inputs.is_prerelease == '' }}
+        run: echo "IS_PRERELEASE=false" >> $GITHUB_ENV
 
       - name: checkout
         uses: actions/checkout@v3.3.0
@@ -49,8 +57,16 @@ jobs:
         with:
           current-version: ${{ secrets.APP_VERSION }}
           version-fragment: ${{ env.VERSION_TYPE }}
-      
+
       - run: echo "NEXT_VERSION=${{ steps.bump_version.outputs.next-version }}" >> $GITHUB_ENV
+        
+      - name: bump version
+        id: bump_version_rc
+        if: ${{ env.IS_PRERELEASE == 'true' }}
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ env.NEXT_VERSION }}
+          version-fragment: 'rc'
 
       - name: build
         run: dotnet build --no-restore --configuration Release -p:Version=${{ env.NEXT_VERSION }}
@@ -75,11 +91,6 @@ jobs:
     permissions: write-all
     timeout-minutes: 10
     steps:
-
-      - run: echo "IS_PRERELEASE=${{ github.event.inputs.is_prerelease }}" >> $GITHUB_ENV
-      - name: override is prerelease
-        if: ${{ github.event.inputs.is_prerelease == '' }}
-        run: echo "IS_PRERELEASE=false" >> $GITHUB_ENV
 
       - name: checkout
         uses: actions/checkout@v3.3.0
@@ -112,7 +123,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: ${{ env.NEXT_VERSION }}
           title: "Release version: ${{ secrets.APP_VERSION }}"
-          prerelease: ${{ env.IS_PRERELEASE }}
+          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
 
       - name: dotnet push to github packages
         shell: bash
