@@ -9,6 +9,7 @@
         <IsPackable>false</IsPackable>
         <PackageId>GenWrap.NUnit</PackageId>
         <Authors>Adrian Franczak;Łukasz Strus</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageDescription>This package simplify working with jsons input in tests</PackageDescription>
         <RepositoryUrl>https://github.com/Nairda015/GenWrap</RepositoryUrl>
         <PackageTags>tests;NUnit;source-generators;json</PackageTags>
