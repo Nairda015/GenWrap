@@ -74,6 +74,7 @@ jobs:
     timeout-minutes: 10
     steps:
 
+      - run: echo "IS_PRERELEASE=${{ github.event.inputs.is_prerelease }}" >> $GITHUB_ENV
       - name: override is prerelease
         if: ${{ github.event.inputs.is_prerelease == '' }}
         run: echo "IS_PRERELEASE=false" >> $GITHUB_ENV
