@@ -16,11 +16,8 @@ on:
         - 'pre'
       is_prerelease:
         required: true
-        default: 'false'
-        type: choice
-        options:
-        - 'true'
-        - 'false'
+        default: false
+        type: boolean
 
 jobs:
   
