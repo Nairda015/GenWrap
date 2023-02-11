@@ -1,8 +1,8 @@
-# TestsExtensions
+# GenWrap
 
-[![CI](https://github.com/Nairda015/TestsExtensions/actions/workflows/pull-request.yml/badge.svg)](https://github.com/Nairda015/TestsExtensions/actions/workflows/pull-request.yml)
-[![codecov](https://codecov.io/gh/Nairda015/TestsExtensions/branch/main/graph/badge.svg?token=DAD5PSBP23)](https://codecov.io/gh/Nairda015/TestsExtensions)
-[![NuGet Badge](https://buildstats.info/nuget/TestsExtensions)](https://www.nuget.org/packages/TestsExtensions/)
+[![CI](https://github.com/Nairda015/GenWrap/actions/workflows/pull-request.yml/badge.svg)](https://github.com/Nairda015/GenWrap/actions/workflows/pull-request.yml)
+[![codecov](https://codecov.io/gh/Nairda015/GenWrap/branch/main/graph/badge.svg?token=DAD5PSBP23)](https://codecov.io/gh/Nairda015/GenWrap)
+[![NuGet Badge](https://buildstats.info/nuget/GenWrap)](https://www.nuget.org/packages/GenWrap/)
 
 
 ## JsonData use case

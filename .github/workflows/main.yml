@@ -59,7 +59,7 @@ jobs:
         with:
           name: 'APP_VERSION'
           value: ${{ steps.bump_version.outputs.next-version }}
-          repository: "Nairda015/TestsExtensions"
+          repository: "Nairda015/GenWrap"
           token: ${{ secrets.PAT_SEMVER_ROTATE_01_02_2024 }}
   
   cd:
@@ -85,7 +85,7 @@ jobs:
         run: |
           dotnet pack /p:Version=${{ secrets.APP_VERSION }} --configuration=Release --output=./packages \
           /p:NoWarn=NU5105 \
-          /p:RepositoryUrl=https://github.com/Nairda015/TestsExtensions \
+          /p:RepositoryUrl=https://github.com/Nairda015/GenWrap \
           /p:RepositoryType=git
 
       - name: publish artifacts
