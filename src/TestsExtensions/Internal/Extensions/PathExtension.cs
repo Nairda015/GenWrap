@@ -6,14 +6,13 @@ internal static class PathExtension
 {
     public static string GetJsonFileData(this string path)
     {
-        var absolutePath = GetAbsolutePath(path);
-        if (!File.Exists(path))
-            throw new PathIsMissingException($"Could not find file at path: {absolutePath}");
+        var normalizedPath = Path.IsPathRooted(path)
+            ? path
+            : PathNetCore.GetRelativePath(Directory.GetCurrentDirectory(), path);
+        
+        if (!File.Exists(normalizedPath))
+            throw new PathIsMissingException(normalizedPath);
 
-        return File.ReadAllText(path);
+        return File.ReadAllText(normalizedPath);
     }
-
-    public static string GetAbsolutePath(this string path) => Path.IsPathRooted(path)
-        ? path
-        : PathNetCore.GetRelativePath(Directory.GetCurrentDirectory(), path);
 }

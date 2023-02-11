@@ -5,7 +5,8 @@ namespace TestsExtensions.Internal.Exceptions;
 [ExcludeFromCodeCoverage]
 public abstract class TestsExtensionsException : Exception
 {
-    protected TestsExtensionsException(string message) : base(message)
+    protected TestsExtensionsException(string message)
+        : base(message)
     {
     }
 }

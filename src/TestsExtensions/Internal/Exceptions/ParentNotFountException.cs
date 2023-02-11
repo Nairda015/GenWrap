@@ -1,8 +1,9 @@
 namespace TestsExtensions.Internal.Exceptions;
 
-internal sealed class ParentNotFountException : TestsExtensionsException
+internal sealed class ParentNotFountException<T> : TestsExtensionsException
 {
-    public ParentNotFountException(string message) : base(message)
+    public ParentNotFountException()
+        : base($"Parent {typeof(T).Name} not found")
     {
     }
 }

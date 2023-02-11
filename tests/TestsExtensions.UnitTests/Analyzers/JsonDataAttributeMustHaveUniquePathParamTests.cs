@@ -7,8 +7,8 @@ namespace TestsExtensions.UnitTests.Analyzers;
 public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 {
     [Theory]
-    [InlineData(_sourceWithWarnings1)]
-    [InlineData(_sourceWithWarnings2)]
+    [InlineData(SourceWithWarnings1)]
+    [InlineData(SourceWithWarnings2)]
     public async Task Analyzer_JsonDataAttribute_ShouldThrowWarning(string source)
     {
         var expectedFirst = Verifier
@@ -25,8 +25,8 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
     }
 
     [Theory]
-    [InlineData(_sourceWithoutWarnings1)]
-    [InlineData(_sourceWithoutWarnings2)]
+    [InlineData(SourceWithoutWarnings1)]
+    [InlineData(SourceWithoutWarnings2)]
     public async Task Analyzer_JsonDataAttribute_NotShouldThrowWarning(string source)
     {
         await Verifier.VerifyAnalyzerAsync(source, typeof(JsonDataAttribute));
@@ -34,7 +34,7 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 
 
 
-    private const string _sourceWithWarnings1 = """
+    private const string SourceWithWarnings1 = """
         using TestsExtensions;
 
         namespace Test;
@@ -49,7 +49,7 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
         }
         """;
 
-    private const string _sourceWithWarnings2 = """
+    private const string SourceWithWarnings2 = """
         using TestsExtensions;
 
         namespace Test;
@@ -70,7 +70,7 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
         }
         """;
 
-    private const string _sourceWithoutWarnings1 = """
+    private const string SourceWithoutWarnings1 = """
         using TestsExtensions;
 
         namespace Test;
@@ -85,7 +85,7 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
         }
         """;
 
-    private const string _sourceWithoutWarnings2 = """
+    private const string SourceWithoutWarnings2 = """
         using TestsExtensions;
         
         namespace Test;

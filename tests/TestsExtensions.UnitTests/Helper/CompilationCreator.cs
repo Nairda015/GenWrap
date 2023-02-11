@@ -5,7 +5,7 @@ namespace TestsExtensions.UnitTests.Helper;
 
 internal static class CompilationCreator
 {
-    internal static Compilation CreateCompilation(string sourceCode)
+    public static Compilation CreateCompilation(string sourceCode)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
 
