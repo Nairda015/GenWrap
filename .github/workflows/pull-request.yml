@@ -7,7 +7,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     strategy:
       fail-fast: true
     steps:
@@ -40,9 +40,9 @@ jobs:
         with:
           fail_ci_if_error: true
           
-  tests: 
+  mutation-tests: 
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: true
     steps:
@@ -63,7 +63,7 @@ jobs:
       - name: mutation tests
         run: |
           dotnet tool restore
-          dotnet stryker -b 50
+          dotnet stryker -b 70
           
       - name: upload test mutation reports
         uses: actions/upload-artifact@v3.1.0

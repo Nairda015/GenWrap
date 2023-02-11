@@ -8,13 +8,13 @@ namespace TestsExtensions.UnitTests.Generators;
 
 public sealed class SignatureWrapperGeneratorTests
 {
-    //TODO add more test cases
-
-    [Fact]
-    public void SignatureWrapperGenerator_ReturnEmptyDiagnostics()
+    [Theory]
+    [InlineData(_sourceWithOneTest)]
+    [InlineData(_sourceWithTwoTests)]
+    public void SignatureWrapperGenerator_ReturnEmptyDiagnostics(string inputSource)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
 
         // Act
@@ -24,25 +24,31 @@ public sealed class SignatureWrapperGeneratorTests
         diagnostics.Should().BeEmpty();
     }
 
-    [Fact]
-    public void SignatureWrapperGenerator_ReturnOutputCompilationWithThreeSyntaxTrees()
+    [Theory]
+    [InlineData(_sourceWithOneTest, 3)]
+    [InlineData(_sourceWithTwoTests, 5)]
+    public void SignatureWrapperGenerator_ReturnOutputCompilationWithCorrectSyntaxTreesCount(
+        string inputSource,
+        int trees)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
 
         // Act
         driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out _);
 
         // Assert
-        outputCompilation.SyntaxTrees.Should().HaveCount(3);
+        outputCompilation.SyntaxTrees.Should().HaveCount(trees);
     }
 
-    [Fact]
-    public void SignatureWrapperGenerator_ReturnDriverResultWithEmptyDiagnostics()
+    [Theory]
+    [InlineData(_sourceWithOneTest)]
+    [InlineData(_sourceWithTwoTests)]
+    public void SignatureWrapperGenerator_ReturnDriverResultWithEmptyDiagnostics(string inputSource)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
 
@@ -53,11 +59,15 @@ public sealed class SignatureWrapperGeneratorTests
         runResult.Diagnostics.Should().BeEmpty();
     }
 
-    [Fact]
-    public void SignatureWrapperGenerator_ReturnDriverResultWithCorrectGeneratedTreesLenght()
+    [Theory]
+    [InlineData(_sourceWithOneTest, 2)]
+    [InlineData(_sourceWithTwoTests, 4)]
+    public void SignatureWrapperGenerator_ReturnDriverResultWithCorrectGeneratedTreesLenght(
+        string inputSource,
+        int trees)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
 
@@ -65,14 +75,16 @@ public sealed class SignatureWrapperGeneratorTests
         var runResult = driver.GetRunResult();
 
         // Assert
-        runResult.GeneratedTrees.Length.Should().Be(2);
+        runResult.GeneratedTrees.Length.Should().Be(trees);
     }
 
-    [Fact]
-    public void SignatureWrapperGenerator_ReturnResultWithFactoryGenerator()
+    [Theory]
+    [InlineData(_sourceWithOneTest)]
+    [InlineData(_sourceWithTwoTests)]
+    public void SignatureWrapperGenerator_ReturnResultWithFactoryGenerator(string inputSource)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         var generator = new SignatureWrapperGenerator();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
@@ -85,11 +97,13 @@ public sealed class SignatureWrapperGeneratorTests
         generatorResult.Generator.Should().Be(generator);
     }
 
-    [Fact]
-    public void SignatureWrapperGenerator_ReturnResultWithEmptyDiagnostics()
+    [Theory]
+    [InlineData(_sourceWithOneTest)]
+    [InlineData(_sourceWithTwoTests)]
+    public void SignatureWrapperGenerator_ReturnResultWithEmptyDiagnostics(string inputSource)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
         var runResult = driver.GetRunResult();
@@ -101,11 +115,15 @@ public sealed class SignatureWrapperGeneratorTests
         generatorResult.Diagnostics.Should().BeEmpty();
     }
 
-    [Fact]
-    public void SignatureWrapperGenerator_ReturnResultWithGeneratedSourcesWithCorrectLenght()
+    [Theory]
+    [InlineData(_sourceWithOneTest, 2)]
+    [InlineData(_sourceWithTwoTests, 4)]
+    public void SignatureWrapperGenerator_ReturnResultWithGeneratedSourcesWithCorrectLenght(
+        string inputSource,
+        int sources)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
         var runResult = driver.GetRunResult();
@@ -114,14 +132,16 @@ public sealed class SignatureWrapperGeneratorTests
         var generatorResult = runResult.Results[0];
 
         // Assert
-        generatorResult.GeneratedSources.Length.Should().Be(2);
+        generatorResult.GeneratedSources.Length.Should().Be(sources);
     }
 
-    [Fact]
-    public void SignatureWrapperGenerator_NotReturnExceptions()
+    [Theory]
+    [InlineData(_sourceWithOneTest)]
+    [InlineData(_sourceWithTwoTests)]
+    public void SignatureWrapperGenerator_NotReturnExceptions(string inputSource)
     {
         // Arrange
-        var inputCompilation = CompilationCreator.CreateCompilation(Source);
+        var inputCompilation = CompilationCreator.CreateCompilation(inputSource);
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new SignatureWrapperGenerator());
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
         var runResult = driver.GetRunResult();
@@ -133,7 +153,7 @@ public sealed class SignatureWrapperGeneratorTests
         generatorResult.Exception.Should().BeNull();
     }
 
-    private const string Source = """
+    private const string _sourceWithOneTest = """
         using FluentAssertions;
         using TestsExtensions.Examples.ChartExample;
 
@@ -158,6 +178,52 @@ public sealed class SignatureWrapperGeneratorTests
                 result.Count.Should().Be(expected.Count);
                 result.Should().BeEquivalentTo(expected);
             }  
+        }
+        """;
+
+    private const string _sourceWithTwoTests = """
+        using FluentAssertions;
+        using TestsExtensions.Examples.ChartExample;
+
+        namespace TestsExtensions.Examples.xUnit.ChartExample;
+
+        public class ChartTests
+        {
+            [JsonTheory<IMarker>]
+            [JsonData(""ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json"")]
+            [JsonData(""ChartExample/TestData/Chart_SimplifyPriceChangedSet_02.json"")]
+            public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(
+                List<PriceChangedEvent> events,
+                List<ChartPoint> expected)
+            {
+                // Arrange
+                var calculator = new Chart();
+
+                // Act
+                var result = calculator.SimplifyPriceChangedSet(events);
+
+                // Assert
+                result.Count.Should().Be(expected.Count);
+                result.Should().BeEquivalentTo(expected);
+            }  
+
+            [JsonTheory<IMarker>]
+            [JsonData(""ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json"")]
+            [JsonData(""ChartExample/TestData/Chart_SimplifyPriceChangedSet_02.json"")]
+            public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(
+                List<PriceChangedEvent> events,
+                List<ChartPoint> expected)
+            {
+                // Arrange
+                var calculator = new Chart();
+
+                // Act
+                var result = calculator.SimplifyPriceChangedSet(events);
+
+                // Assert
+                result.Count.Should().Be(expected.Count);
+                result.Should().BeEquivalentTo(expected);
+            } 
         }
         """;
 }

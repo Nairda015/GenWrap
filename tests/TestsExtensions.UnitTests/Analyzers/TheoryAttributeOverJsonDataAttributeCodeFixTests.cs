@@ -1,6 +1,6 @@
 ﻿using TestsExtensions.Analyzers;
 using Verifier = TestsExtensions.UnitTests.Analyzers.AnalyzerAndCodeFixVerifier<
-    TestsExtensions.Analyzers.TheoryAttirubteOverJsonDataAttribute,
+    TestsExtensions.Analyzers.TheoryAttributeOverJsonDataAttribute,
     TestsExtensions.Analyzers.TheoryAttributeOverJsonDataAttributeCodeFix>;
 
 namespace TestsExtensions.UnitTests.Analyzers;
@@ -13,7 +13,7 @@ public sealed class TheoryAttributeOverJsonDataAttributeCodeFixTests
     public async Task Analyzer_JsonTheoryAttribute_ShouldThrowWarning(string source, string fixSource)
     {
         var expectedFirst = Verifier
-            .Diagnostic(TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute.Id)
+            .Diagnostic(TextExtensionsDescriptors.TE0002_TheoryAttributeOverJsonDataAttribute.Id)
             .WithLocation(8, 6);
 
         await Verifier.VerifyCodeFixAsync(source, fixSource, typeof(JsonTheoryAttribute), expectedFirst);

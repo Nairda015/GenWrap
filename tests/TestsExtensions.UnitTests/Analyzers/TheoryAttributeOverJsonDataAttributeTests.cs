@@ -1,10 +1,10 @@
 ﻿using TestsExtensions.Analyzers;
 using Verifier = TestsExtensions.UnitTests.Analyzers.AnalyzerVerifier<
-    TestsExtensions.Analyzers.TheoryAttirubteOverJsonDataAttribute>;
+    TestsExtensions.Analyzers.TheoryAttributeOverJsonDataAttribute>;
 
 namespace TestsExtensions.UnitTests.Analyzers;
 
-public sealed class TheoryAttirubteOverJsonDataAttributeTests
+public sealed class TheoryAttributeOverJsonDataAttributeTests
 {
     [Theory]
     [InlineData(SourceWithWarnings1)]
@@ -12,7 +12,7 @@ public sealed class TheoryAttirubteOverJsonDataAttributeTests
     public async Task Analyzer_JsonTheoryAttribute_ShouldThrowWarning(string source)
     {
         var expectedFirst = Verifier
-            .Diagnostic(TextExtensionsDescriptors.TE0002_TheoryAttirubteOverJsonDataAttribute.Id)
+            .Diagnostic(TextExtensionsDescriptors.TE0002_TheoryAttributeOverJsonDataAttribute.Id)
             .WithLocation(8, 6);
 
         await Verifier.VerifyAnalyzerAsync(source, typeof(JsonTheoryAttribute), expectedFirst);

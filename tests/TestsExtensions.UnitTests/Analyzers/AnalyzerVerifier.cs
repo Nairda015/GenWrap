@@ -16,10 +16,10 @@ public static class AnalyzerVerifier<TAnalyzer>
 
     public static async Task VerifyAnalyzerAsync(
        string source,
-       Type atributeType,
+       Type attributeType,
        params DiagnosticResult[] expected)
     {
-        var test = new AnalyzerTest(source, atributeType, expected);
+        var test = new AnalyzerTest(source, attributeType, expected);
         await test.RunAsync(CancellationToken.None);
     }
 
@@ -27,13 +27,13 @@ public static class AnalyzerVerifier<TAnalyzer>
     {
         public AnalyzerTest(
            string source,
-           Type atributeType,
+           Type attributeType,
            params DiagnosticResult[] expected)
         {
             TestCode = source;
             ExpectedDiagnostics.AddRange(expected);
             ReferenceAssemblies = ReferenceAssemblies.GetPackages();
-            TestState.AdditionalReferences.Add(atributeType.Assembly);
+            TestState.AdditionalReferences.Add(attributeType.Assembly);
         }
     }
 }
