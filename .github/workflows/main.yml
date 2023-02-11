@@ -1,0 +1,114 @@
+name: CICD
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      custom_version:
+        required: false
+        default: 'bug'
+        type: choice
+        options:
+        - 'feature'
+        - 'bug'
+        - 'major'
+
+jobs:
+  
+  ci:    
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
+    steps: 
+
+      - name: override
+        if: ${{ github.event.inputs.custom_version == '' }}
+        run: echo "VERSION_TYPE=bug" >> $GITHUB_ENV
+
+      - name: checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: restore dependencies
+        run: dotnet restore
+
+      - name: bump version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ secrets.APP_VERSION }}
+          version-fragment: ${{ env.VERSION_TYPE }}
+
+      - name: build
+        run: dotnet build --no-restore --configuration Release -p:Version=${{ steps.bump_version.outputs.next-version }}
+
+      - name: test
+        run: dotnet test /p:Configuration=Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+      - name: upload coverage reports to codecov
+        uses: codecov/codecov-action@v3
+
+      - name: update patch version
+        uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'APP_VERSION'
+          value: ${{ steps.bump_version.outputs.next-version }}
+          repository: "Nairda015/GenWrap"
+          token: ${{ secrets.PAT_SEMVER_ROTATE_01_02_2024 }}
+  
+  cd:
+    needs: [ ci ]
+    runs-on: ubuntu-latest
+    permissions: write-all
+    timeout-minutes: 10
+    steps:
+
+      - name: checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: restore dependencies
+        run: dotnet restore
+
+      - name: dotnet pack
+        shell: bash
+        run: |
+          dotnet pack /p:Version=${{ secrets.APP_VERSION }} --configuration=Release --output=./packages \
+          /p:NoWarn=NU5105 \
+          /p:RepositoryUrl=https://github.com/Nairda015/GenWrap \
+          /p:RepositoryType=git
+
+      - name: publish artifacts
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          path: packages
+          name: nuget-packages
+
+      - name: create a github release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: ${{ secrets.APP_VERSION }}
+          title: "Release version: ${{ secrets.APP_VERSION }}"
+          prerelease: false
+
+      - name: dotnet push to github packages
+        shell: bash
+        run: |
+          dotnet tool restore
+          find . -name "*.nupkg" | xargs -n1 dotnet nuget push --api-key=${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/Nairda015/index.json --skip-duplicate
+
+      - name: dotnet push to nuget.org
+        shell: bash
+        run: dotnet nuget push "packages/*.nupkg" --api-key ${{secrets.NUGET_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      

@@ -1,0 +1,21 @@
+name: Validate branch name
+description: 'Validate branch name'
+
+inputs:
+  branch_name:
+    description: 'Branch name to validate'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Check if branch name is in correct format
+      shell: bash
+      run: |
+        echo Branch name:  ${{ inputs.branch_name }}
+        declare regex="^(feature|bugfix)\/#[0-9]{2,4}-[a-zA-Z,_]{3,}$";
+        if [[ ${{ inputs.branch_name }} =~ $regex ]]; then
+          echo "Branch name is in correct format"
+        else
+          echo "Branch name is not in correct format"
+          exit 1
+        fi    
