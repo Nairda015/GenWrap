@@ -28,17 +28,14 @@ jobs:
     timeout-minutes: 10
     strategy:
       fail-fast: true
+    outputs:
+      next_version: ${{ env.NEXT_VERSION }}
     steps: 
 
       - run: echo "VERSION_TYPE=${{ github.event.inputs.version_type }}" >> $GITHUB_ENV
       - name: override version type
         if: ${{ github.event.inputs.version_type == '' }}
         run: echo "VERSION_TYPE=bug" >> $GITHUB_ENV
-        
-      - run: echo "IS_PRERELEASE=${{ github.event.inputs.is_prerelease }}" >> $GITHUB_ENV
-      - name: override is prerelease
-        if: ${{ github.event.inputs.is_prerelease == '' }}
-        run: echo "IS_PRERELEASE=false" >> $GITHUB_ENV
 
       - name: checkout
         uses: actions/checkout@v3.3.0
@@ -92,6 +89,12 @@ jobs:
     timeout-minutes: 10
     steps:
 
+      - run: echo "NEXT_VERSION=${{ needs.ci.outputs.next_version }}" >> $GITHUB_ENV
+      - run: echo "IS_PRERELEASE=${{ github.event.inputs.is_prerelease }}" >> $GITHUB_ENV
+      - name: override is prerelease
+        if: ${{ github.event.inputs.is_prerelease == '' }}
+        run: echo "IS_PRERELEASE=false" >> $GITHUB_ENV
+
       - name: checkout
         uses: actions/checkout@v3.3.0
 
@@ -122,7 +125,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: ${{ env.NEXT_VERSION }}
-          title: "Release version: ${{ secrets.APP_VERSION }}"
+          title: "Release version: ${{ env.NEXT_VERSION }}"
           prerelease: ${{ env.IS_PRERELEASE == 'true' }}
 
       - name: dotnet push to github packages
@@ -133,5 +136,5 @@ jobs:
 
       - name: dotnet push to nuget.org
         shell: bash
-        run: dotnet nuget push "packages/*.nupkg" --api-key ${{secrets.NUGET_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "packages/*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       
