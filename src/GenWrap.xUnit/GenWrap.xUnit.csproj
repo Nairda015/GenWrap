@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <IsPackable>true</IsPackable>
+        <PackageId>GenWrap.xUnit</PackageId>
+        <Authors>Adrian Franczak;Łukasz Strus</Authors>
+        <PackageDescription>This package simplify working with jsons input in tests</PackageDescription>
+        <RepositoryUrl>https://github.com/Nairda015/GenWrap</RepositoryUrl>
+        <PackageTags>tests;xUnit;source-generators;json</PackageTags>
+        <Title>Sourse-generated extensions for unit tests</Title>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\GenWrap.Abstraction\GenWrap.Abstraction.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.4.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Generator dependencies -->
+        <PackageReference Include="xunit.extensibility.core" Version="2.4.2" GeneratePathProperty="true" PrivateAssets="all" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+    </PropertyGroup>
+
+    <Target Name="GetDependencyTargetPaths">
+        <ItemGroup>
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGxunit_extensibility_core)\lib\netstandard1.1\xunit.core.dll" IncludeRuntimeDependency="false" />
+        </ItemGroup>
+    </Target>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="GenWrap.UnitTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <None Include="../../README.md" Pack="true" PackagePath="/" />
+	</ItemGroup>
+
+</Project>

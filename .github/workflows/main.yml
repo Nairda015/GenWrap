@@ -5,14 +5,19 @@ on:
     branches: [ main ]
   workflow_dispatch:
     inputs:
-      custom_version:
-        required: false
+      version_type:
+        required: true
         default: 'bug'
         type: choice
         options:
         - 'feature'
         - 'bug'
         - 'major'
+        - 'pre'
+      is_prerelease:
+        required: true
+        default: false
+        type: boolean
 
 jobs:
   
@@ -23,8 +28,8 @@ jobs:
       fail-fast: true
     steps: 
 
-      - name: override
-        if: ${{ github.event.inputs.custom_version == '' }}
+      - name: override version type
+        if: ${{ github.event.inputs.version_type == '' }}
         run: echo "VERSION_TYPE=bug" >> $GITHUB_ENV
 
       - name: checkout
@@ -54,12 +59,12 @@ jobs:
       - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
 
-      - name: update patch version
+      - name: update version in secrets
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'APP_VERSION'
           value: ${{ steps.bump_version.outputs.next-version }}
-          repository: "Nairda015/TestsExtensions"
+          repository: "Nairda015/GenWrap"
           token: ${{ secrets.PAT_SEMVER_ROTATE_01_02_2024 }}
   
   cd:
@@ -68,6 +73,11 @@ jobs:
     permissions: write-all
     timeout-minutes: 10
     steps:
+
+      - run: echo "IS_PRERELEASE=${{ github.event.inputs.is_prerelease }}" >> $GITHUB_ENV
+      - name: override is prerelease
+        if: ${{ github.event.inputs.is_prerelease == '' }}
+        run: echo "IS_PRERELEASE=false" >> $GITHUB_ENV
 
       - name: checkout
         uses: actions/checkout@v3.3.0
@@ -85,7 +95,7 @@ jobs:
         run: |
           dotnet pack /p:Version=${{ secrets.APP_VERSION }} --configuration=Release --output=./packages \
           /p:NoWarn=NU5105 \
-          /p:RepositoryUrl=https://github.com/Nairda015/TestsExtensions \
+          /p:RepositoryUrl=https://github.com/Nairda015/GenWrap \
           /p:RepositoryType=git
 
       - name: publish artifacts
@@ -100,7 +110,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: ${{ secrets.APP_VERSION }}
           title: "Release version: ${{ secrets.APP_VERSION }}"
-          prerelease: false
+          prerelease: ${{ env.IS_PRERELEASE }}
 
       - name: dotnet push to github packages
         shell: bash

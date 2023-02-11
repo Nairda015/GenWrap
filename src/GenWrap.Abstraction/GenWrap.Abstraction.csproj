@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <IsPackable>true</IsPackable>
+        <PackageId>GenWrap.Abstraction</PackageId>
+        <Authors>Adrian Franczak;Łukasz Strus</Authors>
+        <PackageDescription>This package simplify working with jsons input in tests</PackageDescription>
+        <RepositoryUrl>https://github.com/Nairda015/GenWrap</RepositoryUrl>
+        <PackageTags>tests;source-generators;json</PackageTags>
+        <Title>Sourse-generated extensions for unit tests</Title>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.4.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="GenWrap.NUnit" />
+        <InternalsVisibleTo Include="GenWrap.xUnit" />
+        <InternalsVisibleTo Include="GenWrap.UnitTests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <None Include="../../README.md" Pack="true" PackagePath="/" />
+    </ItemGroup>
+
+</Project>

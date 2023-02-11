@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
     branches: [ main ]
-  
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -12,42 +12,42 @@ jobs:
       fail-fast: true
     steps:
 
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v3.3.0
-      
+
       - name: validate branch name
         uses: ./.github/workflows/validate-branch-name
         with:
           branch_name: ${{ github.head_ref }}
 
-      - name: Setup .NET
+      - name: setup dotnet
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
 
-      - name: Restore dependencies
+      - name: restore dependencies
         shell: bash
         run: dotnet restore
-        
+
       - name: build
         run: dotnet build --no-restore --configuration Release
 
       - name: test
         run: dotnet test /p:Configuration=Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-      
+
       - name: upload coverage reports to codecov
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
-          
-  mutation-tests: 
+  
+  mutation-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
       fail-fast: true
     steps:
 
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v3.3.0
 
       - name: validate branch name
@@ -55,16 +55,16 @@ jobs:
         with:
           branch_name: ${{ github.head_ref }}
 
-      - name: Setup .NET
+      - name: setup dotnet
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
-          
+
       - name: mutation tests
         run: |
           dotnet tool restore
           dotnet stryker -b 70
-          
+
       - name: upload test mutation reports
         uses: actions/upload-artifact@v3.1.0
         if: always()
