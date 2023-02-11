@@ -17,6 +17,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\GenWrap.Abstraction\GenWrap.Abstraction.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.4.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.4.0" />
@@ -44,10 +48,6 @@
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
         <None Include="../../README.md" Pack="true" PackagePath="/" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\GenWrap.Abstraction\GenWrap.Abstraction.csproj" />
 	</ItemGroup>
 
 </Project>
