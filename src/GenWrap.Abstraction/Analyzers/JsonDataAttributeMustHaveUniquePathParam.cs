@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace GenWrap.xUnit.Analyzers;
+namespace GenWrap.Abstraction.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 internal sealed class JsonDataAttributeMustHaveUniquePathParam : DiagnosticAnalyzer
@@ -29,7 +29,7 @@ internal sealed class JsonDataAttributeMustHaveUniquePathParam : DiagnosticAnaly
 
         var attributes = method.AttributeLists
             .Select(x => x.Attributes
-                .Where(y => context.SemanticModel.GetTypeInfo(y).Type?.Name == nameof(JsonDataAttribute)))
+                .Where(y => context.SemanticModel.GetTypeInfo(y).Type?.Name == "JsonDataAttribute"))
             .SelectMany(x => x)
             .ToList();
 
