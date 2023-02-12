@@ -35,8 +35,8 @@ public sealed class JsonDataAttributeMustHaveValidPathParamTests
 
         public class ChartTests
         {
-            [JsonData("Test")]
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_01.json")]
+            [JsonData("TestData/simple0.json")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
@@ -51,13 +51,13 @@ public sealed class JsonDataAttributeMustHaveValidPathParamTests
 
         public class ChartTests
         {
-            [JsonData("Test")]
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_01.json")]
+            [JsonData("TestData/simple0.json")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
 
-            [JsonData("Test")]
+            [JsonData("TestData/simple0.json")]
             [JsonData("Test1")]
             public void Test1()
             {
@@ -73,8 +73,8 @@ public sealed class JsonDataAttributeMustHaveValidPathParamTests
 
         public class ChartTests
         {
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_01.json")]
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_02.json")]
+            [JsonData("TestData/simple.json")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
@@ -89,14 +89,14 @@ public sealed class JsonDataAttributeMustHaveValidPathParamTests
         
         public class ChartTests
         {
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_01.json")]
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_02.json")]
+            [JsonData("TestData/simple.json")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
         
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_01.json")]
-            [JsonData("Analyzers/TestData/Chart_SimplifyPriceChangedSet_02.json")]
+            [JsonData("TestData/simple.json")]
+            [JsonData("TestData/simple.json")]
             public void Test1()
             {
             } 
