@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenWrap.NUnit", "src\GenWra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenWrap.Abstraction", "src\GenWrap.Abstraction\GenWrap.Abstraction.csproj", "{F1CB6C82-DA11-4706-BD04-F22C24A0128C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenWrap.Examples.NUnit", "examples\GenWrap.Examples.NUnit\GenWrap.Examples.NUnit.csproj", "{7548A80C-638C-47DA-A60F-59333376002A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{F1CB6C82-DA11-4706-BD04-F22C24A0128C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1CB6C82-DA11-4706-BD04-F22C24A0128C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1CB6C82-DA11-4706-BD04-F22C24A0128C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7548A80C-638C-47DA-A60F-59333376002A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7548A80C-638C-47DA-A60F-59333376002A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7548A80C-638C-47DA-A60F-59333376002A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7548A80C-638C-47DA-A60F-59333376002A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{EB7A95AC-01BC-40DE-8357-3DECCF33A6FB} = {F94DBF15-42E3-4C7A-8D8B-CDE69E2E50D6}
 		{D9041546-0821-4289-87A1-1CB3BA6DEC5C} = {B7E3623C-F471-402F-9B09-053BB37A36F4}
 		{F1CB6C82-DA11-4706-BD04-F22C24A0128C} = {B7E3623C-F471-402F-9B09-053BB37A36F4}
+		{7548A80C-638C-47DA-A60F-59333376002A} = {22D25DC3-AFB4-41A9-8AE9-EDFF9D49889F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C89971E7-026F-4B61-B8C9-86E6178C2571}

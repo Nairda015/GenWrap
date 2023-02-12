@@ -5,13 +5,13 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace GenWrap.xUnit.Analyzers;
+namespace GenWrap.Abstraction.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal sealed class TheoryAttributeOverJsonDataAttribute : DiagnosticAnalyzer
+internal sealed class JsonDataAttributeMustHaveUniquePathParam : DiagnosticAnalyzer
 {
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
-        = ImmutableArray.Create(GenWrapDescriptors.GW0002_TheoryAttributeOverJsonDataAttribute);
+        = ImmutableArray.Create(GenWrapDescriptors.GW0001_JsonDataAttributeMustHaveUniquePathParam);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -23,21 +23,31 @@ internal sealed class TheoryAttributeOverJsonDataAttribute : DiagnosticAnalyzer
 
     private static void CheckAttribute(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "Theory" } } attr) return;
+        if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "JsonData" } } attr) return;
 
         var method = attr.GetParent<MethodDeclarationSyntax>();
 
         var attributes = method.AttributeLists
             .Select(x => x.Attributes
-                .Where(y => context.SemanticModel.GetTypeInfo(y).Type?.Name == nameof(JsonDataAttribute)))
+                .Where(y => context.SemanticModel.GetTypeInfo(y).Type?.Name == "JsonDataAttribute"))
             .SelectMany(x => x)
             .ToList();
 
-        if (!attributes.Any()) return;
+        var pathGroups = attributes
+            .Select(x => x.ArgumentList?.Arguments.First().Expression as LiteralExpressionSyntax)
+            .GroupBy(x => x?.Token.ValueText)
+            .Where(x => x.Count() > 1)
+            .Select(x => x.Key);
+
+        if (!pathGroups.Any()) return;
+
+        var methodSymbol = context.SemanticModel.GetDeclaredSymbol(method);
 
         var error = Diagnostic.Create(
-            GenWrapDescriptors.GW0002_TheoryAttributeOverJsonDataAttribute,
-            attr.GetLocation());
+            GenWrapDescriptors.GW0001_JsonDataAttributeMustHaveUniquePathParam,
+            attr.GetLocation(),
+            methodSymbol?.Name,
+            methodSymbol?.ContainingType.Name);
 
         context.ReportDiagnostic(error);
     }

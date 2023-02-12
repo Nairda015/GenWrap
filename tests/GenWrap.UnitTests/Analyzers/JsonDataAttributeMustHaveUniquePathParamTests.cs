@@ -1,7 +1,7 @@
-﻿using GenWrap.xUnit;
-using GenWrap.xUnit.Analyzers;
+﻿using GenWrap.Abstraction.Analyzers;
+using GenWrap.xUnit;
 using Verifier = GenWrap.UnitTests.Analyzers.AnalyzerVerifier<
-    GenWrap.xUnit.Analyzers.JsonDataAttributeMustHaveUniquePathParam>;
+    GenWrap.Abstraction.Analyzers.JsonDataAttributeMustHaveUniquePathParam>;
 
 namespace GenWrap.UnitTests.Analyzers;
 

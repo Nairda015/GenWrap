@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 // ReSharper disable InconsistentNaming
 
-namespace GenWrap.xUnit.Analyzers;
+namespace GenWrap.Abstraction.Analyzers;
 
 [ExcludeFromCodeCoverage]
 internal class GenWrapDescriptors
@@ -15,14 +15,5 @@ internal class GenWrapDescriptors
             "Theory method '{0}' on test class '{1}' has JsonData duplicate(s). Remove redundant attribute(s) from the theory method.",
             "Usage",
             DiagnosticSeverity.Warning,
-            true);
-
-    public static readonly DiagnosticDescriptor GW0002_TheoryAttributeOverJsonDataAttribute =
-        new DiagnosticDescriptor(
-            "GW0002",
-            "To JsonTheoryAttribute",
-            "Invalid test attribute, for proper assembly scanning use JsonTheoryAttribute instead of TheoryAttribute",
-            "Usage",
-            DiagnosticSeverity.Error,
             true);
 }
