@@ -7,10 +7,12 @@
 ## JsonData use case
 Tests with lots of complicated scenarios can produce thousands of lines of code with tests setup also it can be hard to maintain.  
 With this library, you can use json as tests input and based on the test method signature we will generate the required files to deserialize json without bloating your code.
+
+### xUnit
 ```cs
 public class ChartTests
 {
-    [JsonTheory<IMarker>]
+    [Theory]
     [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet.json")]
     public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(
         List<PriceChangedEvent> events,
@@ -28,8 +30,31 @@ public class ChartTests
     }
 }
 ```
-You can pass an array of objects inside one file or add multiple attributes with the correct path to test cases.  
-Json syntax should align with method sygnature.
+
+### NUnit
+```cs
+public class ChartTests
+{
+    [Test]
+    [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet.json")]
+    public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(
+        List<PriceChangedEvent> events,
+        List<ChartPoint> expected)
+    {
+        // Arrange
+        var calculator = new Chart();
+
+        // Act
+        var result = calculator.SimplifyPriceChangedSet(events);
+
+        // Assert
+        result.Count.Should().Be(expected.Count);
+        result.Should().BeEquivalentTo(expected);
+    }
+}
+```
+
+### JSON
 ```json
 [
   {
@@ -66,3 +91,5 @@ Json syntax should align with method sygnature.
   }
 ]
 ```
+You can pass an array of objects inside one file or add multiple attributes with the correct path to test cases.  
+Json syntax should align with method signature.
