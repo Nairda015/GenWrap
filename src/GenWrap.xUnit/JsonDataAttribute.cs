@@ -15,8 +15,13 @@ public class JsonDataAttribute : DataAttribute
     public JsonDataAttribute(string filePath) => _filePath = filePath;
 
     /// <inheritDoc />
-    public override IEnumerable<object[]> GetData(MethodInfo _)
+    public override IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
+        if (SignatureWrapperStore.IsEmpty())
+        {
+            SignatureWrapperStore.ScanAssembly(methodInfo.DeclaringType!.Assembly);
+        }
+        
         var fileData = _filePath.GetJsonFileData();
         if (string.IsNullOrWhiteSpace(fileData)) throw new FileIsEmptyException(_filePath);
 

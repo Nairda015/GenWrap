@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <IsPackable>false</IsPackable>
+        <IsPackable>true</IsPackable>
         <PackageId>GenWrap.NUnit</PackageId>
         <Authors>Adrian Franczak;Łukasz Strus</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,15 +29,15 @@
         <PackageReference Include="NUnit" Version="3.13.3" GeneratePathProperty="true" PrivateAssets="all" />
     </ItemGroup>
 
-    <PropertyGroup>
-        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-    </PropertyGroup>
+<!--    <PropertyGroup>-->
+<!--        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>-->
+<!--    </PropertyGroup>-->
 
-    <Target Name="GetDependencyTargetPaths">
-        <ItemGroup>
-            <TargetPathWithTargetPlatformMoniker Include="$(PKGxunit_extensibility_core)\lib\netstandard1.1\xunit.core.dll" IncludeRuntimeDependency="false" />
-        </ItemGroup>
-    </Target>
+<!--    <Target Name="GetDependencyTargetPaths">-->
+<!--        <ItemGroup>-->
+<!--            <TargetPathWithTargetPlatformMoniker Include="$(PKGxunit_extensibility_core)\lib\netstandard1.1\xunit.core.dll" IncludeRuntimeDependency="false" />-->
+<!--        </ItemGroup>-->
+<!--    </Target>-->
 
     <ItemGroup>
         <InternalsVisibleTo Include="GenWrap.UnitTests" />

@@ -1,22 +1,25 @@
 using FluentAssertions;
 using GenWrap.Abstraction.Internal;
 using GenWrap.Abstraction.Internal.Exceptions;
-using GenWrap.Examples.xUnit;
+using GenWrap.Examples.xUnit.ChartExample;
 using GenWrap.xUnit;
 
-namespace GenWrap.UnitTests;
+namespace GenWrap.UnitTests.Impl;
 
-public class JsonDataAttributeTests
+public class XUnitJsonDataAttributeTests
 {
     [Fact]
     public void GetData_ShouldThrowAssemblyScanningException_WhenWrongMarkerWasUsed()
     {
         // Arrange
         var attribute = new JsonDataAttribute("TestData/full.json");
-        SignatureWrapperStore.ScanAssembly<IMarker>();
-
+        SignatureWrapperStore.ScanAssembly(typeof(ChartTests).Assembly);
+        var methodInfo =
+            typeof(XUnitJsonDataAttributeTests).GetMethod(
+                nameof(GetData_ShouldThrowAssemblyScanningException_WhenWrongMarkerWasUsed))!;
+        
         // Act
-        var exception = Record.Exception(() => attribute.GetData(null!));
+        var exception = Record.Exception(() => attribute.GetData(methodInfo));
 
         // Assert
         exception.Should().BeOfType<AssemblyScanningException>();

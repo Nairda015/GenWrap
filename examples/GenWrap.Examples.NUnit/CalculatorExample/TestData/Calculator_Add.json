@@ -1,0 +1,12 @@
+[
+  {
+    "InputA": 8,
+    "InputB": 12,
+    "Expected": 20
+  },
+  {
+    "InputA": 4,
+    "InputB": 6,
+    "Expected": 10
+  }
+]

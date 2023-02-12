@@ -7,16 +7,12 @@ internal static class SignatureWrapperStore
 {
     private static readonly Dictionary<string, ISignatureWrapper> Store = new();
 
+    public static bool IsEmpty() => Store.Count is 0;
+
     public static bool TryGetValue(string key, out ISignatureWrapper? value)
     {
-        if (Store.Count == 0) throw new SignatureWrapperStoreIsEmptyException();
+        if (IsEmpty()) throw new SignatureWrapperStoreIsEmptyException();
         return Store.TryGetValue(key, out value);
-    }
-
-    public static void ScanAssembly<TMarker>()
-    {
-        if (Store.Count > 0) return;
-        ScanAssembly(Assembly.GetAssembly(typeof(TMarker))!);
     }
 
     public static void ScanAssembly(Assembly assembly)
@@ -30,11 +26,11 @@ internal static class SignatureWrapperStore
             .ToList()
             .ForEach(TryAddToStore);
     }
-    
+
     private static void TryAddToStore(ISignatureWrapper x)
     {
         if (!Store.ContainsKey(x.Key)) Store.Add(x.Key, x);
     }
-    
+
     internal static void Clear() => Store.Clear();
 }

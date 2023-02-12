@@ -1,13 +1,13 @@
 using FluentAssertions;
 using GenWrap.Examples.ChartExample;
-using GenWrap.xUnit;
-using Xunit;
+using GenWrap.NUnit;
+using NUnit.Framework;
 
-namespace GenWrap.Examples.xUnit.ChartExample;
+namespace GenWrap.Examples.NUnit.ChartExample;
 
 public class ChartTests
 {
-    [Theory]
+    [Test]
     [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_01.json")]
     [JsonData("ChartExample/TestData/Chart_SimplifyPriceChangedSet_02.json")]
     public void SimplifyPriceChangedSet_ShouldReturnSimplifyChartPoints(

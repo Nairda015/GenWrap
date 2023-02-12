@@ -1,14 +1,13 @@
 using FluentAssertions;
 using GenWrap.Examples.CalculatorExample;
-using GenWrap.xUnit;
-using Xunit;
+using GenWrap.NUnit;
+using NUnit.Framework;
 
-namespace GenWrap.Examples.xUnit.CalculatorExample;
+namespace GenWrap.Examples.NUnit.CalculatorExample;
 
 public class CalculatorTests
 {
-    //[JsonTheory(typeof(IMarker))]
-    [Theory]
+    [Test]
     [JsonData("CalculatorExample/TestData/Calculator_Add.json")]
     public void Add_ShouldReturnCorrectResult(int inputA, int inputB, int expected)
     {
