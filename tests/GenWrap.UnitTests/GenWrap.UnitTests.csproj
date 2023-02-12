@@ -39,6 +39,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="Analyzers\TestData\Chart_SimplifyPriceChangedSet_01.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Analyzers\TestData\Chart_SimplifyPriceChangedSet_02.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Internal\Extensions\TestData\file.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
