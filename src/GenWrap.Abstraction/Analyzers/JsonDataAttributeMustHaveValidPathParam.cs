@@ -29,7 +29,7 @@ internal class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyzer
         if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "JsonData" } } attr) return;
         if (attr.ArgumentList?.Arguments.First().Expression is not LiteralExpressionSyntax literalExpressionSyntax) return;
 
-        var path = literalExpressionSyntax.Token.Text;
+        var path = literalExpressionSyntax.Token.ValueText;
 
         var normalizedPath = Path.IsPathRooted(path)
             ? path

@@ -57,8 +57,7 @@ public sealed class JsonDataAttributeMustHaveValidPathParamTests
             {
             }  
 
-            [JsonData("TestData/simple0.json")]
-            [JsonData("Test1")]
+            [JsonData("TestData/simple.json")]
             public void Test1()
             {
             }  
@@ -73,7 +72,6 @@ public sealed class JsonDataAttributeMustHaveValidPathParamTests
 
         public class ChartTests
         {
-            [JsonData("TestData/simple.json")]
             [JsonData("TestData/simple.json")]
             public void Test()
             {
@@ -90,12 +88,10 @@ public sealed class JsonDataAttributeMustHaveValidPathParamTests
         public class ChartTests
         {
             [JsonData("TestData/simple.json")]
-            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
         
-            [JsonData("TestData/simple.json")]
             [JsonData("TestData/simple.json")]
             public void Test1()
             {
