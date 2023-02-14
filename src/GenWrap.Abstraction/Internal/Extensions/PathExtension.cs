@@ -18,14 +18,19 @@ internal static class PathExtension
 
     public static string? GetProjectPath(this string path)
     {
+
         var directory = new DirectoryInfo(Path.GetDirectoryName(path));
 
-        if (!directory.Exists) return path;
+        if (!directory.Exists || path == " ")
+            throw new PathIsMissingException(path);
 
-        while (directory != null && !directory.GetFiles("*.csproj").Any())
+        while (directory is not null && !directory.GetFiles("*.csproj").Any())
         {
             directory = directory.Parent;
         }
+
+        if (directory is null)
+            throw new PathIsMissingException(path);
 
         return directory!.FullName;
     }

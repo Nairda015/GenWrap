@@ -1,4 +1,5 @@
-﻿using GenWrap.Abstraction.Internal.Extensions;
+﻿using GenWrap.Abstraction.Internal.Exceptions;
+using GenWrap.Abstraction.Internal.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -27,10 +28,9 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "JsonData" } } attr) return;
         if (attr.ArgumentList?.Arguments.First().Expression is not LiteralExpressionSyntax literalExpressionSyntax) return;
 
-        var paramPath = literalExpressionSyntax.Token.ValueText;
-        var attrPath = attr.SyntaxTree.FilePath.GetProjectPath()!;
+        var paramPath = literalExpressionSyntax.Token.ValueText;        
 
-        if (CheckOutputPath(paramPath) || CheckRoslynPath(paramPath, attrPath)) return;
+        if (CheckOutputPath(paramPath) || CheckRoslynPath(paramPath, attr)) return;        
 
         var error = Diagnostic.Create(
             GenWrapDescriptors.GW0002_JsonDataAttributeMustHaveValidPathParam,
@@ -50,12 +50,23 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         return true;
     }
 
-    private static bool CheckRoslynPath(string paramPath, string attrPath)
+    private static bool CheckRoslynPath(string paramPath, AttributeSyntax attr)
     {
+        string projPath;
+
+        try
+        {
+            projPath = attr.SyntaxTree.FilePath.GetProjectPath()!;
+        }
+        catch (PathIsMissingException)
+        {
+            return false;
+        }
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             paramPath = paramPath.Replace("/", "\\");
 
-        if (!File.Exists(Path.Combine(attrPath, paramPath))) return false;
+        if (!File.Exists(Path.Combine(projPath, paramPath))) return false;
 
         return true;
     }
