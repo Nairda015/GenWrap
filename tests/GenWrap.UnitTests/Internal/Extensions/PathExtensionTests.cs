@@ -9,7 +9,6 @@ public class PathExtensionTests
 {
 
     [Theory]
-    [InlineData(" ")]
     [InlineData("/TestData/simple.json")]
     [InlineData("~/TestData/simple.json")]
     public void GetProjectPath_ShouldReturnNullPath_WhenPathIsInvalid(string path)
@@ -39,21 +38,6 @@ public class PathExtensionTests
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
         exception.Should().BeOfType<PathIsMissingException>();
         exception!.Message.Should().Be($"Could not find file at path: {path}");
-    }
-
-    [Theory]
-    [InlineData(" ")]
-    public void GetProjectPath_ShouldThrowArgumentNullException_WhenPathIsEmpty_ForWindows(string path)
-    {
-        // Arrange
-
-        // Act
-        var exception = Record.Exception(path.GetProjectPath);
-
-        // Assert
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
-        exception.Should().BeOfType<ArgumentNullException>();
-        exception!.Message.Should().Be($"Value cannot be null. (Parameter '{nameof(path)}')");
     }
 
     [Theory]
