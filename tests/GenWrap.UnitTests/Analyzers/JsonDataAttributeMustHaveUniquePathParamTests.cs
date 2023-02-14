@@ -12,6 +12,7 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
     [InlineData(SourceWithWarnings2)]
     public async Task Analyzer_JsonDataAttribute_ShouldThrowWarning(string source)
     {
+        //Arrange
         var expectedFirst = Verifier
             .Diagnostic(GenWrapDescriptors.GW0001_JsonDataAttributeMustHaveUniquePathParam.Id)
             .WithLocation(9, 6)
@@ -22,6 +23,9 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
             .WithLocation(8, 6)
             .WithArguments("Test", "ChartTests");
 
+        //Act
+
+        //Assert
         await Verifier.VerifyAnalyzerAsync(source, typeof(JsonDataAttribute), new[] { expectedFirst , expectedSecond } );
     }
 
@@ -30,6 +34,11 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
     [InlineData(SourceWithoutWarnings2)]
     public async Task Analyzer_JsonDataAttribute_NotShouldThrowWarning(string source)
     {
+        //Arrange
+
+        //Act
+
+        //Assert
         await Verifier.VerifyAnalyzerAsync(source, typeof(JsonDataAttribute));
     }
 

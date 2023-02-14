@@ -1,4 +1,5 @@
 using GenWrap.Abstraction.Internal.Exceptions;
+using System.Runtime.InteropServices;
 
 namespace GenWrap.Abstraction.Internal.Extensions;
 
@@ -34,4 +35,10 @@ internal static class PathExtension
 
         return directory!.FullName;
     }
+
+    public static string TidyUp(this string path)
+        => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+        ?  path.Replace("/", "\\")
+        :  path.Replace("\\", "/");
+
 }

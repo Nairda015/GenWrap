@@ -28,7 +28,8 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "JsonData" } } attr) return;
         if (attr.ArgumentList?.Arguments.First().Expression is not LiteralExpressionSyntax literalExpressionSyntax) return;
 
-        var paramPath = literalExpressionSyntax.Token.ValueText;        
+        var paramPath = literalExpressionSyntax.Token.ValueText;
+        paramPath = paramPath.TidyUp();
 
         if (CheckOutputPath(paramPath) || CheckRoslynPath(paramPath, attr)) return;        
 
@@ -61,10 +62,7 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         catch (PathIsMissingException)
         {
             return false;
-        }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            paramPath = paramPath.Replace("/", "\\");
+        }        
 
         if (!File.Exists(Path.Combine(projPath, paramPath))) return false;
 

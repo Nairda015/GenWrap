@@ -7,12 +7,58 @@ namespace GenWrap.UnitTests.Internal.Extensions;
 
 public class PathExtensionTests
 {
+    [Theory]
+    [InlineData(null)]
+    public void TidyUp_ShouldThrowNullReferenceException_WhenPathIsInvalid(string path)
+    {
+        // Arrange
+
+        // Act
+        var exception = Record.Exception(path.TidyUp);
+
+        // Assert
+        exception.Should().BeOfType<NullReferenceException>();
+    }
+
+    [Theory]
+    [InlineData("", "")]
+    [InlineData(" ", " ")]
+    [InlineData("TestData/simple.json", "TestData\\simple.json")]
+    [InlineData("./TestData/simple.json", ".\\TestData\\simple.json")]
+    public void TidyUp_ShouldReturnWindowsPath_WhenPathIsValid(string path, string expectedPath)
+    {
+        // Arrange
+
+        // Act
+        var result = path.TidyUp();
+
+        //Assert
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
+        result.Should().Be(expectedPath);
+    }
+
+    [Theory]
+    [InlineData("", "")]
+    [InlineData(" ", " ")]
+    [InlineData("TestData\\simple.json", "TestData/simple.json")]
+    [InlineData(".\\TestData\\simple.json", "./TestData/simple.json")]
+    public void TidyUp_ShouldReturnLinuxPath_WhenPathIsValid(string path, string expectedPath)
+    {
+        // Arrange
+
+        // Act
+        var result = path.TidyUp();
+
+        //Assert
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
+        result.Should().Be(expectedPath);
+    }
 
     [Theory]
     [InlineData("/tests")]
     [InlineData("/TestData/simple.json")]
     [InlineData("~/TestData/simple.json")]
-    public void GetProjectPath_ShouldReturnNullPath_WhenPathIsInvalid(string path)
+    public void GetProjectPath_ShouldThrowPathIsMissingException_WhenPathIsInvalid(string path)
     {
         // Arrange
 
@@ -29,7 +75,7 @@ public class PathExtensionTests
     [InlineData("\\tests")]
     [InlineData("\\TestData\\simple.json")]
     [InlineData("~\\TestData\\simple.json")]
-    public void GetProjectPath_ShouldReturnNullPath_WhenPathIsInvalid_ForWindows(string path)
+    public void GetProjectPath_ShouldThrowPathIsMissingException_WhenPathIsInvalid_ForWindows(string path)
     {
         // Arrange
 
@@ -40,6 +86,20 @@ public class PathExtensionTests
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
         exception.Should().BeOfType<PathIsMissingException>();
         exception!.Message.Should().Be($"Could not find file at path: {path}");
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(" ")]
+    public void GetProjectPath_ShouldThrowArgumentNullException_WhenPathIsInvalid(string path)
+    {
+        // Arrange
+
+        // Act
+        var exception = Record.Exception(path.GetProjectPath);
+
+        // Assert
+        exception.Should().BeOfType<ArgumentNullException>();
     }
 
     [Theory]
