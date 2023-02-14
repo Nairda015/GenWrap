@@ -29,7 +29,6 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         if (attr.ArgumentList?.Arguments.First().Expression is not LiteralExpressionSyntax literalExpressionSyntax) return;
 
         var paramPath = literalExpressionSyntax.Token.ValueText;
-        paramPath = paramPath.TidyUp();
 
         if (CheckOutputPath(paramPath) || CheckRoslynPath(paramPath, attr)) return;        
 
@@ -54,7 +53,7 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
     private static bool CheckRoslynPath(string paramPath, AttributeSyntax attr)
     {
         string projPath;
-
+        
         try
         {
             projPath = attr.SyntaxTree.FilePath.GetProjectPath()!;
@@ -62,8 +61,9 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         catch (PathIsMissingException)
         {
             return false;
-        }        
+        }
 
+        paramPath = paramPath.TidyUp();
         if (!File.Exists(Path.Combine(projPath, paramPath))) return false;
 
         return true;
