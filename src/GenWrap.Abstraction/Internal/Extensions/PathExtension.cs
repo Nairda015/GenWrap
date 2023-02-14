@@ -15,4 +15,18 @@ internal static class PathExtension
 
         return File.ReadAllText(normalizedPath);
     }
+
+    public static string? GetProjectPath(this string path)
+    {
+        var directory = new DirectoryInfo(Path.GetDirectoryName(path));
+
+        if (!directory.Exists) return path;
+
+        while (directory != null && !directory.GetFiles("*.csproj").Any())
+        {
+            directory = directory.Parent;
+        }
+
+        return directory!.FullName;
+    }
 }

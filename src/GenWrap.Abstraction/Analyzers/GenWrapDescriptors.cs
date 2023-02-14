@@ -23,6 +23,6 @@ internal class GenWrapDescriptors
             "The JsonDataAttribute must have a valid path parameter",
             "The path to the json file is invalid. Please enter a valid file path.",
             "Usage",
-            DiagnosticSeverity.Error,
+            DiagnosticSeverity.Warning,
             true);
     }

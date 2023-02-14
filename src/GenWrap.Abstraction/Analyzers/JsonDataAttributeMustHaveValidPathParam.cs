@@ -1,16 +1,17 @@
-﻿using Microsoft.CodeAnalysis.Diagnostics;
+﻿using GenWrap.Abstraction.Internal.Extensions;
 using Microsoft.CodeAnalysis;
-using System.IO;
-using System.Collections.Immutable;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using GenWrap.Abstraction.Internal.Exceptions;
+using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace GenWrap.Abstraction.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyzer
+internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyzer
 {
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
     = ImmutableArray.Create(GenWrapDescriptors.GW0002_JsonDataAttributeMustHaveValidPathParam);
@@ -24,8 +25,7 @@ internal class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyzer
     }
 
     private static void CheckAttribute(SyntaxNodeAnalysisContext context)
-    { 
-
+    {
         if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "JsonData" } } attr) return;
         if (attr.ArgumentList?.Arguments.First().Expression is not LiteralExpressionSyntax literalExpressionSyntax) return;
 
@@ -36,6 +36,13 @@ internal class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyzer
             : PathNetCore.GetRelativePath(Directory.GetCurrentDirectory(), path);
 
         if (File.Exists(normalizedPath)) return;
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            path = path.Replace("/", "\\");
+
+        var fullPath = Path.Combine(attr.SyntaxTree.FilePath.GetProjectPath(), path);
+
+        if (File.Exists(fullPath)) return;
 
         var error = Diagnostic.Create(
             GenWrapDescriptors.GW0002_JsonDataAttributeMustHaveValidPathParam,

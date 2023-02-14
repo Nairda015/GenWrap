@@ -6,4 +6,4 @@
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
 GW0001  | Usage    | Warning  | GenWrapDescriptors
-GW0002  | Usage    | Error    | GenWrapDescriptors
+GW0002  | Usage    | Warning  | GenWrapDescriptors
