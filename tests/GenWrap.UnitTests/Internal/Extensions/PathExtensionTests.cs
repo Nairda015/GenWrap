@@ -9,6 +9,7 @@ public class PathExtensionTests
 {
 
     [Theory]
+    [InlineData("/tests")]
     [InlineData("/TestData/simple.json")]
     [InlineData("~/TestData/simple.json")]
     public void GetProjectPath_ShouldReturnNullPath_WhenPathIsInvalid(string path)
@@ -25,6 +26,7 @@ public class PathExtensionTests
     }
 
     [Theory]
+    [InlineData("\\tests")]
     [InlineData("\\TestData\\simple.json")]
     [InlineData("~\\TestData\\simple.json")]
     public void GetProjectPath_ShouldReturnNullPath_WhenPathIsInvalid_ForWindows(string path)
