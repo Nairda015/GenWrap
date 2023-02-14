@@ -4,8 +4,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace GenWrap.Abstraction.Analyzers;
@@ -29,25 +27,36 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         if (context.Node is not AttributeSyntax { Name: IdentifierNameSyntax { Identifier.Text: "JsonData" } } attr) return;
         if (attr.ArgumentList?.Arguments.First().Expression is not LiteralExpressionSyntax literalExpressionSyntax) return;
 
-        var path = literalExpressionSyntax.Token.ValueText;
+        var paramPath = literalExpressionSyntax.Token.ValueText;
+        var attrPath = attr.SyntaxTree.FilePath.GetProjectPath()!;
 
-        var normalizedPath = Path.IsPathRooted(path)
-            ? path
-            : PathNetCore.GetRelativePath(Directory.GetCurrentDirectory(), path);
-
-        if (File.Exists(normalizedPath)) return;
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            path = path.Replace("/", "\\");
-
-        var fullPath = Path.Combine(attr.SyntaxTree.FilePath.GetProjectPath(), path);
-
-        if (File.Exists(fullPath)) return;
+        if (CheckOutputPath(paramPath) || CheckRoslynPath(paramPath, attrPath)) return;
 
         var error = Diagnostic.Create(
             GenWrapDescriptors.GW0002_JsonDataAttributeMustHaveValidPathParam,
             attr.GetLocation());
 
         context.ReportDiagnostic(error);
+    }
+
+    private static bool CheckOutputPath(string paramPath)
+    {
+        var normalizedPath = Path.IsPathRooted(paramPath)
+            ? paramPath
+            : PathNetCore.GetRelativePath(Directory.GetCurrentDirectory(), paramPath);
+
+        if (!File.Exists(normalizedPath)) return false;
+
+        return true;
+    }
+
+    private static bool CheckRoslynPath(string paramPath, string attrPath)
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            paramPath = paramPath.Replace("/", "\\");
+
+        if (!File.Exists(Path.Combine(attrPath, paramPath))) return false;
+
+        return true;
     }
 }
