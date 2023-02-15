@@ -33,7 +33,7 @@ internal static class PathExtension
         if (directory is null)
             throw new PathIsMissingException(path);
 
-        return directory!.FullName;
+        return directory.FullName;
     }
 
     public static string TidyUp(this string path)

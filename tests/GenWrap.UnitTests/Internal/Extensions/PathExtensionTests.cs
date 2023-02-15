@@ -88,18 +88,30 @@ public class PathExtensionTests
         exception!.Message.Should().Be($"Could not find file at path: {path}");
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData(" ")]
-    public void GetProjectPath_ShouldThrowArgumentNullException_WhenPathIsInvalid(string path)
+    [Fact]
+    public void GetProjectPath_ShouldThrowArgumentNullException_WhenPathIsInvalid()
     {
         // Arrange
-
+        const string path = null!;
+        
         // Act
         var exception = Record.Exception(path.GetProjectPath);
 
         // Assert
         exception.Should().BeOfType<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void GetProjectPath_ShouldThrowArgumentException_WhenPathIsInvalid()
+    {
+        // Arrange
+        const string path = " ";
+        
+        // Act
+        var exception = Record.Exception(path.GetProjectPath);
+
+        // Assert
+        exception.Should().BeOfType<ArgumentException>();
     }
 
     [Theory]

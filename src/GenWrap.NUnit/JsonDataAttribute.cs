@@ -25,7 +25,7 @@ public class JsonDataAttribute : NUnitAttribute, ITestBuilder
         {
             SignatureWrapperStore.ScanAssembly(method.MethodInfo.DeclaringType!.Assembly);
         }
-        
+
         var fileData = _filePath.GetJsonFileData();
         if (string.IsNullOrWhiteSpace(fileData)) throw new FileIsEmptyException(_filePath);
         
