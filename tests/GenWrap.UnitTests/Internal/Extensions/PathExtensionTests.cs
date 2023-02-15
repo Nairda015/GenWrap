@@ -23,26 +23,9 @@ public class PathExtensionTests
     [Theory]
     [InlineData("", "")]
     [InlineData(" ", " ")]
-    [InlineData("TestData/simple.json", "TestData\\simple.json")]
-    [InlineData("./TestData/simple.json", ".\\TestData\\simple.json")]
-    public void TidyUp_ShouldReturnWindowsPath_WhenPathIsValid(string path, string expectedPath)
-    {
-        // Arrange
-
-        // Act
-        var result = path.TidyUp();
-
-        //Assert
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
-        result.Should().Be(expectedPath);
-    }
-
-    [Theory]
-    [InlineData("", "")]
-    [InlineData(" ", " ")]
     [InlineData("TestData\\simple.json", "TestData/simple.json")]
     [InlineData(".\\TestData\\simple.json", "./TestData/simple.json")]
-    public void TidyUp_ShouldReturnLinuxPath_WhenPathIsValid(string path, string expectedPath)
+    public void TidyUp_ShouldReturnUnixPath_WhenPathIsValid(string path, string expectedPath)
     {
         // Arrange
 
