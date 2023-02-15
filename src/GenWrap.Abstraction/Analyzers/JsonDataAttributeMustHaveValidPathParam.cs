@@ -64,8 +64,6 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
         }
 
         paramPath = paramPath.TidyUp();
-        if (!File.Exists(Path.Combine(projPath, paramPath))) return false;
-
-        return true;
+        return File.Exists(Path.Combine(projPath, paramPath));
     }
 }

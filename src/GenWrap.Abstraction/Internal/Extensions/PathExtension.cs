@@ -37,8 +37,5 @@ internal static class PathExtension
     }
 
     public static string TidyUp(this string path)
-        => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-        ?  path.Replace("/", "\\")
-        :  path.Replace("\\", "/");
-
+        => path.Replace("\\", "/");
 }
