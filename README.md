@@ -1,6 +1,6 @@
 # GenWrap
 
-[![CI](https://github.com/Nairda015/GenWrap/actions/workflows/pull-request.yml/badge.svg)](https://github.com/Nairda015/GenWrap/actions/workflows/pull-request.yml)
+[![CICD](https://github.com/Nairda015/GenWrap/actions/workflows/main.yml/badge.svg)](https://github.com/Nairda015/GenWrap/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/Nairda015/GenWrap/branch/main/graph/badge.svg?token=DAD5PSBP23)](https://codecov.io/gh/Nairda015/GenWrap)
 [![NuGet Badge](https://buildstats.info/nuget/GenWrap.Abstraction)](https://www.nuget.org/packages/GenWrap.Abstraction/)
 
