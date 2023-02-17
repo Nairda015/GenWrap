@@ -112,7 +112,7 @@ jobs:
       - name: dotnet pack
         shell: bash
         run: |
-          dotnet pack /p:Version=${{ env.NEXT_VERSION }} --configuration=Release -p:PackageOutputPath=../packages \
+          dotnet pack /p:Version=${{ env.NEXT_VERSION }} --configuration=Release \
           /p:NoWarn=NU5105 \
           /p:RepositoryUrl=https://github.com/Nairda015/GenWrap \
           /p:RepositoryType=git
@@ -139,5 +139,5 @@ jobs:
 
       - name: dotnet push to nuget.org
         shell: bash
-        run: dotnet nuget push "packages/*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       
