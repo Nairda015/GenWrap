@@ -45,9 +45,7 @@ internal sealed class JsonDataAttributeMustHaveValidPathParam : DiagnosticAnalyz
             ? paramPath
             : PathNetCore.GetRelativePath(Directory.GetCurrentDirectory(), paramPath);
 
-        if (!File.Exists(normalizedPath)) return false;
-
-        return true;
+        return File.Exists(normalizedPath);
     }
 
     private static bool CheckRoslynPath(string paramPath, AttributeSyntax attr)

@@ -1,10 +1,6 @@
 ﻿using GenWrap.Abstraction.Analyzers;
-using GenWrap.UnitTests.Helper;
 using GenWrap.xUnit;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Verifier = GenWrap.UnitTests.Analyzers.AnalyzerVerifier<
-    GenWrap.Abstraction.Analyzers.JsonDataAttributeMustHaveValidPathParam>;
+using Verifier = GenWrap.UnitTests.Analyzers.AnalyzerVerifier<GenWrap.Abstraction.Analyzers.JsonDataAttributeMustHaveValidPathParam>;
 
 namespace GenWrap.UnitTests.Analyzers;
 
