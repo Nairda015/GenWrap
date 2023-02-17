@@ -112,7 +112,7 @@ jobs:
       - name: dotnet pack
         shell: bash
         run: |
-          dotnet pack /p:Version=${{ env.NEXT_VERSION }} --configuration=Release --output=./packages \
+          dotnet pack /p:Version=${{ env.NEXT_VERSION }} --configuration=Release /p:PublishDir=./packages \
           /p:NoWarn=NU5105 \
           /p:RepositoryUrl=https://github.com/Nairda015/GenWrap \
           /p:RepositoryType=git
