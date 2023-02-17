@@ -16,4 +16,13 @@ internal class GenWrapDescriptors
             "Usage",
             DiagnosticSeverity.Warning,
             true);
-}
+
+    public static readonly DiagnosticDescriptor GW0002_JsonDataAttributeMustHaveValidPathParam =
+        new DiagnosticDescriptor(
+            "GW0002",
+            "The JsonDataAttribute must have a valid path parameter",
+            "The path to the json file is invalid. Please enter a valid file path.",
+            "Usage",
+            DiagnosticSeverity.Warning,
+            true);
+    }

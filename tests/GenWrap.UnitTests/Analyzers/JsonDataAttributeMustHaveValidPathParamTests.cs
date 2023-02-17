@@ -1,11 +1,10 @@
 ﻿using GenWrap.Abstraction.Analyzers;
 using GenWrap.xUnit;
-using Verifier = GenWrap.UnitTests.Analyzers.AnalyzerVerifier<
-    GenWrap.Abstraction.Analyzers.JsonDataAttributeMustHaveUniquePathParam>;
+using Verifier = GenWrap.UnitTests.Analyzers.AnalyzerVerifier<GenWrap.Abstraction.Analyzers.JsonDataAttributeMustHaveValidPathParam>;
 
 namespace GenWrap.UnitTests.Analyzers;
 
-public sealed class JsonDataAttributeMustHaveUniquePathParamTests
+public sealed class JsonDataAttributeMustHaveValidPathParamTests
 {
     [Theory]
     [InlineData(SourceWithWarnings1)]
@@ -13,20 +12,14 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
     public async Task Analyzer_JsonDataAttribute_ShouldThrowWarning(string source)
     {
         //Arrange
-        var expectedFirst = Verifier
-            .Diagnostic(GenWrapDescriptors.GW0001_JsonDataAttributeMustHaveUniquePathParam.Id)
-            .WithLocation(9, 6)
-            .WithArguments("Test", "ChartTests");
-
-        var expectedSecond = Verifier
-            .Diagnostic(GenWrapDescriptors.GW0001_JsonDataAttributeMustHaveUniquePathParam.Id)
-            .WithLocation(8, 6)
-            .WithArguments("Test", "ChartTests");
+        var expected = Verifier
+            .Diagnostic(GenWrapDescriptors.GW0002_JsonDataAttributeMustHaveValidPathParam.Id)
+            .WithLocation(8, 6);
 
         //Act
 
         //Assert
-        await Verifier.VerifyAnalyzerAsync(source, typeof(JsonDataAttribute), new[] { expectedFirst , expectedSecond } );
+        await Verifier.VerifyAnalyzerAsync(source, typeof(JsonDataAttribute), expected);
     }
 
     [Theory]
@@ -42,8 +35,6 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
         await Verifier.VerifyAnalyzerAsync(source, typeof(JsonDataAttribute));
     }
 
-
-
     private const string SourceWithWarnings1 = """
         using Xunit;
         using GenWrap.xUnit;
@@ -52,8 +43,8 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 
         public class ChartTests
         {
-            [JsonData("Test")]
-            [JsonData("Test")]
+            [JsonData("TestData/simple0.json")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
@@ -68,14 +59,13 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 
         public class ChartTests
         {
-            [JsonData("Test")]
-            [JsonData("Test")]
+            [JsonData("TestData/simple0.json")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
 
-            [JsonData("Test")]
-            [JsonData("Test1")]
+            [JsonData("TestData/simple.json")]
             public void Test1()
             {
             }  
@@ -90,8 +80,7 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
 
         public class ChartTests
         {
-            [JsonData("Test")]
-            [JsonData("Test1")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
@@ -106,17 +95,17 @@ public sealed class JsonDataAttributeMustHaveUniquePathParamTests
         
         public class ChartTests
         {
-            [JsonData("Test")]
-            [JsonData("Test1")]
+            [JsonData("TestData/simple.json")]
             public void Test()
             {
             }  
         
-            [JsonData("Test")]
-            [JsonData("Test1")]
+            [JsonData("TestData/simple.json")]
             public void Test1()
             {
             } 
         }
         """;
 }
+
+
